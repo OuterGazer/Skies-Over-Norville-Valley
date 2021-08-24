@@ -247,13 +247,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4531ff2a79e8c8c4e9a70e7d5b874e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolModeInt: 1
+  toolModeInt: 2
   erosionTypeInt: 1
   generatorTypeInt: 4
-  isBrushOn: 1
+  isBrushOn: 0
   isBrushHidden: 0
   isBrushPainting: 0
-  brushPosition: {x: 218.7829, y: -33.516876, z: 370.4021}
+  brushPosition: {x: 254.49483, y: 62.16623, z: 672.95996}
   brushSize: 15
   brushOpacity: 1
   brushSoftness: 0.5
@@ -290,10 +290,18 @@ MonoBehaviour:
   windCapacity: 0.01
   windEntropy: 0.1
   windSmoothing: 0.25
-  terrainLayers: []
-  slopeBlendMinAngle: 10
-  slopeBlendMaxAngle: 30
-  heightBlendPoints: []
+  terrainLayers:
+  - {fileID: 8574412962073106934, guid: 7e0517843abb6694a82a354ad65e0664, type: 2}
+  - {fileID: 8574412962073106934, guid: c25f012d8eaba684b9a392d71f427372, type: 2}
+  - {fileID: 8574412962073106934, guid: 6027a37a2b260a547b76ea058e4ff1e0, type: 2}
+  - {fileID: 8574412962073106934, guid: 34a7124a250b6314f803cba5555e7faa, type: 2}
+  slopeBlendMinAngle: 45
+  slopeBlendMaxAngle: 55
+  heightBlendPoints:
+  - 0.25
+  - 0.33064517
+  - 0.63709676
+  - 0.7177419
   gradientStyles: []
   voronoiTypeInt: 1
   voronoiCells: 8
