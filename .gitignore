@@ -2,9 +2,14 @@
 #
 # Get latest from https://github.com/github/gitignore/blob/master/Unity.gitignore
 #
-/[Aa]ssets/**
-!/[Aa]ssets/[Ss]cripts/
-!/[Aa]ssets/[Ss]cenes/
+/[Aa]ssets/**/
+!/[Aa]ssets/[Ss]cripts
+!/[Aa]ssets/[Ss]cenes
+!/[Aa]ssets/[Ss]cripts/**/*.cs.meta
+!/[Aa]ssets/[Ss]cripts/**/*.cs.meta
+!/[Aa]ssets/[Ss]cenes/**/*.unity
+!/[Aa]ssets/[Ss]cenes/**/*.unity.meta
+
 
 /[Ll]ibrary/
 /[Tt]emp/
@@ -19,7 +24,7 @@
 /[Mm]emoryCaptures/
 
 # Asset meta data should only be ignored when the corresponding asset is also ignored
-!/[Aa]ssets/**/*.meta
+#!/[Aa]ssets/**/*.meta
 
 # Uncomment this line if you wish to ignore the asset store tools plugin
 # /[Aa]ssets/AssetStoreTools*
