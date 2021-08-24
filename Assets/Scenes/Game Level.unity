@@ -247,29 +247,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4531ff2a79e8c8c4e9a70e7d5b874e01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolModeInt: 0
+  toolModeInt: 1
   erosionTypeInt: 1
   generatorTypeInt: 4
-  isBrushOn: 0
+  isBrushOn: 1
   isBrushHidden: 0
   isBrushPainting: 0
-  brushPosition: {x: 0, y: 0, z: 0}
-  brushSize: 50
+  brushPosition: {x: 218.7829, y: -33.516876, z: 370.4021}
+  brushSize: 15
   brushOpacity: 1
   brushSoftness: 0.5
   neighbourhoodInt: 0
   useDifferenceMaps: 1
-  thermalIterations: 25
+  thermalIterations: 2
   thermalMinSlope: 7.5
   thermalFalloff: 0.5
-  hydraulicTypeInt: 1
+  hydraulicTypeInt: 0
   hydraulicIterations: 25
-  hydraulicMaxSlope: 60
-  hydraulicFalloff: 0.5
-  hydraulicRainfall: 0.02
+  hydraulicMaxSlope: 85
+  hydraulicFalloff: 1
+  hydraulicRainfall: 0.01
   hydraulicEvaporation: 0.5
-  hydraulicSedimentSolubility: 0.06
-  hydraulicSedimentSaturation: 0.15
+  hydraulicSedimentSolubility: 0.01
+  hydraulicSedimentSaturation: 0.1
   hydraulicVelocityRainfall: 0.01
   hydraulicVelocityEvaporation: 0.5
   hydraulicVelocitySedimentSolubility: 0.01
@@ -279,9 +279,9 @@ MonoBehaviour:
   hydraulicEntropy: 0
   hydraulicDowncutting: 0.1
   tidalIterations: 25
-  tidalSeaLevel: 50
+  tidalSeaLevel: -40
   tidalRangeAmount: 5
-  tidalCliffLimit: 60
+  tidalCliffLimit: 65
   windIterations: 5
   windDirection: 90
   windForce: 0.5
@@ -369,6 +369,75 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &813019962
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 100000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_Name
+      value: River Water
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 286.2076
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 178.30663
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 324.6739
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -40
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 438.9945
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9485b0c79d11e2e4d0007da98d76c639, type: 3}
 --- !u!1 &1228543228
 GameObject:
   m_ObjectHideFlags: 0
