@@ -248,8 +248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toolModeInt: 0
-  erosionTypeInt: 0
-  generatorTypeInt: 0
+  erosionTypeInt: 1
+  generatorTypeInt: 4
   isBrushOn: 0
   isBrushHidden: 0
   isBrushPainting: 0
@@ -260,16 +260,16 @@ MonoBehaviour:
   neighbourhoodInt: 0
   useDifferenceMaps: 1
   thermalIterations: 25
-  thermalMinSlope: 1
+  thermalMinSlope: 7.5
   thermalFalloff: 0.5
-  hydraulicTypeInt: 0
+  hydraulicTypeInt: 1
   hydraulicIterations: 25
   hydraulicMaxSlope: 60
   hydraulicFalloff: 0.5
-  hydraulicRainfall: 0.01
+  hydraulicRainfall: 0.02
   hydraulicEvaporation: 0.5
-  hydraulicSedimentSolubility: 0.01
-  hydraulicSedimentSaturation: 0.1
+  hydraulicSedimentSolubility: 0.06
+  hydraulicSedimentSaturation: 0.15
   hydraulicVelocityRainfall: 0.01
   hydraulicVelocityEvaporation: 0.5
   hydraulicVelocitySedimentSolubility: 0.01
@@ -282,8 +282,8 @@ MonoBehaviour:
   tidalSeaLevel: 50
   tidalRangeAmount: 5
   tidalCliffLimit: 60
-  windIterations: 25
-  windDirection: 0
+  windIterations: 5
+  windDirection: 90
   windForce: 0.5
   windLift: 0.01
   windGravity: 0.5
@@ -291,23 +291,23 @@ MonoBehaviour:
   windEntropy: 0.1
   windSmoothing: 0.25
   terrainLayers: []
-  slopeBlendMinAngle: 60
-  slopeBlendMaxAngle: 75
+  slopeBlendMinAngle: 10
+  slopeBlendMaxAngle: 30
   heightBlendPoints: []
   gradientStyles: []
-  voronoiTypeInt: 0
-  voronoiCells: 16
+  voronoiTypeInt: 1
+  voronoiCells: 8
   voronoiFeatures: 1
-  voronoiScale: 1
+  voronoiScale: 0
   voronoiBlend: 1
-  diamondSquareDelta: 0.5
-  diamondSquareBlend: 1
-  perlinFrequency: 4
+  diamondSquareDelta: 0.4
+  diamondSquareBlend: 0.5
+  perlinFrequency: 10
   perlinAmplitude: 1
   perlinOctaves: 8
-  perlinBlend: 1
-  smoothBlend: 1
-  smoothIterations: 0
+  perlinBlend: 0.2
+  smoothBlend: 0.25
+  smoothIterations: 1
   normaliseMin: 0
   normaliseMax: 1
   normaliseBlend: 1
