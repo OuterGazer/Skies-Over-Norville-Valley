@@ -5,10 +5,13 @@
 /[Aa]ssets/**/
 !/[Aa]ssets/[Ss]cripts
 !/[Aa]ssets/[Ss]cenes
-!/[Aa]ssets/[Ss]cripts/**/*.cs.meta
+!/[Aa]ssets/[Tt]errains
+!/[Aa]ssets/[Ss]cripts/**/*.cs
 !/[Aa]ssets/[Ss]cripts/**/*.cs.meta
 !/[Aa]ssets/[Ss]cenes/**/*.unity
 !/[Aa]ssets/[Ss]cenes/**/*.unity.meta
+!/[Aa]ssets/[Tt]errains/**/*.asset
+!/[Aa]ssets/[Tt]errains/**/*.asset.meta
 
 
 /[Ll]ibrary/
@@ -78,3 +81,7 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+#My project specific ignore list
+Assets/Terrains/Cliff.terrainlayer
+Assets/Terrains/Cliff.terrainlayer.meta
