@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] InputAction playerMov;
+    [SerializeField] float moveSpeed = default;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +30,13 @@ public class PlayerMovement : MonoBehaviour
         float xThrow = this.playerMov.ReadValue<Vector2>().x;
         float yThrow = this.playerMov.ReadValue<Vector2>().y;
 
-        //Debug.Log(horizontalThrow);
-        //Debug.Log(verticalThrow);
+        float xPosNextFrame = xThrow * this.moveSpeed * Time.deltaTime;
+        float yPosNextFrame = yThrow * this.moveSpeed * Time.deltaTime;
+
+        this.gameObject.transform.localPosition = new Vector3(this.gameObject.transform.localPosition.x + xPosNextFrame,
+                                                              this.gameObject.transform.localPosition.y + yPosNextFrame,
+                                                              this.gameObject.transform.localPosition.z);
+
+
     }
 }
