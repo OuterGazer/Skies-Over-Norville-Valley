@@ -26,10 +26,10 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        float horizontalThrow = this.playerMov.ReadValue<Vector2>().x;
-        float verticalThrow = this.playerMov.ReadValue<Vector2>().y;
+        float xThrow = this.playerMov.ReadValue<Vector2>().x;
+        float yThrow = this.playerMov.ReadValue<Vector2>().y;
 
-        Debug.Log(horizontalThrow);
-        Debug.Log(verticalThrow);
+        //Debug.Log(horizontalThrow);
+        //Debug.Log(verticalThrow);
     }
 }
