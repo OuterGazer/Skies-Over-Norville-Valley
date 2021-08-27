@@ -174,25 +174,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: rotatingSpeed
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: controlRollFactor
-      value: -30
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: positionYawFactor
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: controlPitchFactor
-      value: -20
-      objectReference: {fileID: 0}
-    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: positionPitchFactor
-      value: -0.75
+    - target: {fileID: 3970323718118137571, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 8926141046239171556, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
       propertyPath: m_Name
