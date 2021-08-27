@@ -175,12 +175,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: xScreenLimitPercent
-      value: 0.75
+      propertyPath: rotatingSpeed
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
-      propertyPath: yScreenLimitPercent
-      value: 0.75
+      propertyPath: controlRollFactor
+      value: -30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
+      propertyPath: positionYawFactor
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
+      propertyPath: controlPitchFactor
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5564347658703364563, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
+      propertyPath: positionPitchFactor
+      value: -0.75
       objectReference: {fileID: 0}
     - target: {fileID: 8926141046239171556, guid: 1c05f7d089230664eaaf2a6aa46c3293, type: 3}
       propertyPath: m_Name
@@ -704,7 +716,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215953037}
   m_LocalRotation: {x: 0, y: 0.86983323, z: 0, w: 0.49334592}
-  m_LocalPosition: {x: 81.8, y: -4.46, z: 77.8}
+  m_LocalPosition: {x: 81.8, y: -2.96, z: 77.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 18883354}
