@@ -67,20 +67,7 @@ public class PlayerMovement : MonoBehaviour
 
         ProcessPlayerRotation();
     }
-
-    private void ProcessPlayerRotation()
-    {
-        float xPitch, yYaw, zRoll;
-
-        xPitch = this.gameObject.transform.localPosition.y * this.positionPitchFactor + // To have the ship not always face the center of the screen, but be more or less straight in relation to its local position
-                 this.yThrow * this.controlPitchFactor; // Rotates up/down according to player input
-        yYaw = this.gameObject.transform.localPosition.x * this.positionYawFactor; // Same, moving sideways we apply a slight yaw that keeps the airship straight, as it automatically rotates to face the relative center of the view
-        zRoll = this.xThrow * this.controlRollFactor;
-
-        this.gameObject.transform.localRotation = Quaternion.RotateTowards(this.gameObject.transform.localRotation,
-                                                                           Quaternion.Euler(xPitch, yYaw, zRoll),
-                                                                           this.rotatingSpeed * Time.deltaTime);
-    }
+    
 
     private void ProcessPlayerMovement()
     {
@@ -127,5 +114,19 @@ public class PlayerMovement : MonoBehaviour
         this.gameObject.transform.localPosition = new Vector3(nextPlayerPos.x,
                                                               nextPlayerPos.y,
                                                               this.gameObject.transform.localPosition.z);
+    }
+
+    private void ProcessPlayerRotation()
+    {
+        float xPitch, yYaw, zRoll;
+
+        xPitch = this.gameObject.transform.localPosition.y * this.positionPitchFactor + // To have the ship not always face the center of the screen, but be more or less straight in relation to its local position
+                 this.yThrow * this.controlPitchFactor; // Rotates up/down according to player input
+        yYaw = this.gameObject.transform.localPosition.x * this.positionYawFactor; // Same, moving sideways we apply a slight yaw that keeps the airship straight, as it automatically rotates to face the relative center of the view
+        zRoll = this.xThrow * this.controlRollFactor;
+
+        this.gameObject.transform.localRotation = Quaternion.RotateTowards(this.gameObject.transform.localRotation,
+                                                                           Quaternion.Euler(xPitch, yYaw, zRoll),
+                                                                           this.rotatingSpeed * Time.deltaTime);
     }
 }
