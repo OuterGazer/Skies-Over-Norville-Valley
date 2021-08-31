@@ -66,8 +66,8 @@ public class PlayerShooting : MonoBehaviour
     private void ShootBullets()
     {
         if ((this.playerShooting.ReadValue<float>() != 0) &&
-                   (this.fireNextBullet < 0) &&
-                   (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
+            (this.fireNextBullet < 0) &&
+            (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
         {
             this.airshipAmmo[this.currentBullet].gameObject.SetActive(true);
 
