@@ -13,6 +13,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private Bullet shootingAmmo;
     [SerializeField] private int maxAmmo = default;
     [SerializeField] private float bulletBarrageFactor = default; // For debugging purposes only
+    [SerializeField] private SpriteRenderer crosshair;
 
     
     private Bullet[] airshipAmmo;
@@ -22,6 +23,7 @@ public class PlayerShooting : MonoBehaviour
     {
         this.fireNextBullet = this.bulletBarrageFactor;
     }
+    private LayerMask enemyMask;
 
 
     private bool wasLastBulletOnRightBarrel = false;
@@ -40,6 +42,8 @@ public class PlayerShooting : MonoBehaviour
     void Start()
     {
         CreateAndStoreAmmo();
+
+        this.enemyMask = LayerMask.GetMask("Enemy");
     }
 
     private void CreateAndStoreAmmo()
@@ -53,6 +57,17 @@ public class PlayerShooting : MonoBehaviour
         }
 
         SetFireNextBullet();
+    }
+
+    private void FixedUpdate()
+    {
+        bool hasHitEnemy =
+            Physics.Raycast(this.crosshair.gameObject.transform.position, this.crosshair.gameObject.transform.forward, 210f, this.enemyMask);
+
+        if (hasHitEnemy)
+            this.crosshair.color = Color.red;
+        else
+            this.crosshair.color = Color.white;
     }
 
     // Update is called once per frame

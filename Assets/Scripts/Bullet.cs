@@ -22,7 +22,6 @@ public class Bullet : MonoBehaviour
     {
         this.bulletRB = this.gameObject.GetComponent<Rigidbody>();
         this.bulletTrail = this.gameObject.GetComponent<TrailRenderer>();
-        //this.gameObject.GetComponent<TrailRenderer>().enabled = false;
     }
 
     private void FixedUpdate()
@@ -59,5 +58,17 @@ public class Bullet : MonoBehaviour
 
         this.gameObject.transform.localPosition = Vector3.zero;
         this.gameObject.SetActive(false);
+    }
+
+
+    // Physics Callbacks ====================================================================================================================
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy"))
+        {
+            Debug.Log("Enemy hit!");
+            GameObject.Destroy(other.gameObject.transform.parent.gameObject);
+        }
     }
 }

@@ -8,4 +8,9 @@ public class CollisionHandler : MonoBehaviour
     {
         Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
     }
+
+    /*private void OnCollisionEnter(Collision other)
+    {
+        Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
+    }*/
 }
