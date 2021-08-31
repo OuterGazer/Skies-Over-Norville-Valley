@@ -24,6 +24,7 @@ public class PlayerShooting : MonoBehaviour
         this.fireNextBullet = this.bulletBarrageFactor;
     }
     private LayerMask enemyMask;
+    private CollisionHandler player;
 
 
     private bool wasLastBulletOnRightBarrel = false;
@@ -44,6 +45,7 @@ public class PlayerShooting : MonoBehaviour
         CreateAndStoreAmmo();
 
         this.enemyMask = LayerMask.GetMask("Enemy");
+        this.player = this.gameObject.GetComponent<CollisionHandler>();
     }
 
     private void CreateAndStoreAmmo()
@@ -73,6 +75,8 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!this.player.IsAlive) { return; }
+
         this.fireNextBullet -= Time.deltaTime;
 
         ShootBullets();

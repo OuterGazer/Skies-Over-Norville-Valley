@@ -23,6 +23,7 @@ public class PlayerMovement : MonoBehaviour
     private float yScreenLimit;
 
     private Camera playerView;
+    private CollisionHandler player;
 
 
     // Start is called before the first frame update
@@ -32,6 +33,8 @@ public class PlayerMovement : MonoBehaviour
         Cursor.visible = false;
 
         CalculateScreenLimits();
+
+        this.player = this.gameObject.GetComponent<CollisionHandler>();
     }
 
     private void CalculateScreenLimits()
@@ -64,6 +67,8 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!this.player.IsAlive) { return; }
+
         ProcessPlayerMovement();
 
         ProcessPlayerRotation();
