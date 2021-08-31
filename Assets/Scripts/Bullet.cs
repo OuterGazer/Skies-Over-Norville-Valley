@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float shootRange = default;
 
     private float originZ;
+    private float originX;
 
     private Rigidbody bulletRB;
     private TrailRenderer bulletTrail;
@@ -31,23 +32,32 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        if(Mathf.Abs(this.gameObject.transform.position.z - this.originZ) >= this.shootRange)
+        if(Mathf.Abs(this.gameObject.transform.position.z - this.originZ) >= this.shootRange ||
+           Mathf.Abs(this.gameObject.transform.position.x - this.originX) >= this.shootRange)
         {
-            SetParent(GameObject.FindWithTag("Ammo Holder").transform);            
-            this.gameObject.SetActive(false);
+            StartCoroutine(EngageToParent(GameObject.FindWithTag("Ammo Holder").transform));
         }
     }
 
     public void DisengageFromParent()
     {
         this.gameObject.transform.SetParent(null);
-        this.originZ = Mathf.Abs(this.gameObject.transform.position.z);
+        this.originZ = this.gameObject.transform.position.z;
+        this.originX = this.gameObject.transform.position.x;
     }
 
-    public void SetParent(Transform parent)
+    public IEnumerator EngageToParent(Transform parent)
     {
         EmmitTrail(false);
-        this.gameObject.transform.position = Vector3.zero;        
-        this.gameObject.transform.SetParent(parent);        
+
+        yield return null;
+
+        this.gameObject.transform.SetParent(parent);
+        this.bulletTrail.Clear();        
+
+        yield return null;
+
+        this.gameObject.transform.localPosition = Vector3.zero;
+        this.gameObject.SetActive(false);
     }
 }

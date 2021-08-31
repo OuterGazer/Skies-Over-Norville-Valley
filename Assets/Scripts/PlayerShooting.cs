@@ -24,6 +24,8 @@ public class PlayerShooting : MonoBehaviour
     }
 
 
+    private bool wasLastBulletOnRightBarrel = false;
+
 
     private void OnEnable()
     {
@@ -37,9 +39,14 @@ public class PlayerShooting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        CreateAndStoreAmmo();
+    }
+
+    private void CreateAndStoreAmmo()
+    {
         this.airshipAmmo = new Bullet[this.maxAmmo];
 
-        for(int i = 0; i < airshipAmmo.Length; i++)
+        for (int i = 0; i < airshipAmmo.Length; i++)
         {
             airshipAmmo[i] = GameObject.Instantiate<Bullet>(this.shootingAmmo, this.ammoParent);
             airshipAmmo[i].gameObject.SetActive(false);
@@ -53,25 +60,39 @@ public class PlayerShooting : MonoBehaviour
     {
         this.fireNextBullet -= Time.deltaTime;
 
-        if((this.playerShooting.ReadValue<float>() != 0) &&
-           (this.fireNextBullet < 0))
+        ShootBullets();
+    }
+
+    private void ShootBullets()
+    {
+        if ((this.playerShooting.ReadValue<float>() != 0) &&
+                   (this.fireNextBullet < 0) &&
+                   (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
         {
             this.airshipAmmo[this.currentBullet].gameObject.SetActive(true);
-            //this.airshipAmmo[this.currentBullet].EmmitTrail(false);
 
-            this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.rightBarrel.transform.localPosition;
-            this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.rightBarrel.transform.localRotation;
+            if (!this.wasLastBulletOnRightBarrel)
+            {
+                this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.rightBarrel.transform.localPosition;
+                this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.rightBarrel.transform.localRotation;
+            }
+            else
+            {
+                this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.leftBarrel.transform.localPosition;
+                this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.leftBarrel.transform.localRotation;
+            }
+
+            this.wasLastBulletOnRightBarrel = !this.wasLastBulletOnRightBarrel;
             this.airshipAmmo[this.currentBullet].EmmitTrail(true);
 
             this.airshipAmmo[this.currentBullet].DisengageFromParent();
 
             SetFireNextBullet();
-            this.currentBullet++;            
+            this.currentBullet++;
         }
 
         if (this.currentBullet >= this.airshipAmmo.Length)
             this.currentBullet = 0;
     }
 
-    
 }
