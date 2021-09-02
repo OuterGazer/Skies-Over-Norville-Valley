@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed = default;
     [SerializeField] private float shootRange = default;
+    [SerializeField] GameObject enemyAircraftExplosionVFX;
 
     private float originZ;
     private float originX;
@@ -67,8 +68,20 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            //Debug.Log("Enemy hit!");
-            GameObject.Destroy(other.gameObject.transform.parent.gameObject);
+            GameObject enemyCrash = Instantiate<GameObject>(this.enemyAircraftExplosionVFX,
+                                                            new Vector3(other.transform.position.x, other.transform.position.y - 1.1f, other.transform.position.z),
+                                                            Quaternion.identity);
+            other.gameObject.AddComponent<Rigidbody>();            
+            
+            other.GetComponent<Rigidbody>().AddExplosionForce(Random.Range(5, 20),
+                                        new Vector3(Random.Range(other.transform.position.x - 3, other.transform.position.x + 3),
+                                                    Random.Range(other.transform.position.y - 3, other.transform.position.y + 3),
+                                                    Random.Range(other.transform.position.z - 3, other.transform.position.z + 3)),
+                                        10f, Random.Range(1f, 10f), ForceMode.Impulse);
+
+            other.GetComponent<MeshCollider>().enabled = false;
+            GameObject.Destroy(other.gameObject.transform.parent.gameObject, 1.0f);
+            GameObject.Destroy(enemyCrash, 1.0f);
         }
     }
 }
