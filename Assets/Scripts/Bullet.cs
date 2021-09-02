@@ -79,6 +79,8 @@ public class Bullet : MonoBehaviour
                                                     Random.Range(other.transform.position.z - 3, other.transform.position.z + 3)),
                                         10f, Random.Range(1f, 10f), ForceMode.Impulse);
 
+            other.gameObject.transform.parent.transform.SetParent(null);
+
             other.GetComponent<MeshCollider>().enabled = false;
             GameObject.Destroy(other.gameObject.transform.parent.gameObject, 1.0f);
             GameObject.Destroy(enemyCrash, 1.0f);
