@@ -55,6 +55,7 @@ public class PlayerShooting : MonoBehaviour
         for (int i = 0; i < airshipAmmo.Length; i++)
         {
             airshipAmmo[i] = GameObject.Instantiate<Bullet>(this.shootingAmmo, this.ammoParent);
+            airshipAmmo[i].gameObject.layer = 7;
             airshipAmmo[i].gameObject.SetActive(false);
         }
 
@@ -75,7 +76,7 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!this.player.IsAlive) { return; }
+        //if (!this.player.IsAlive) { return; }
 
         this.fireNextBullet -= Time.deltaTime;
 

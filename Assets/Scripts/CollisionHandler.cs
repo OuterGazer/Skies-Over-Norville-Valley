@@ -6,26 +6,50 @@ using UnityEngine.SceneManagement;
 public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] private int loadDelay = default;
+    [SerializeField] GameObject explosionVFX;
+
+    private Rigidbody playerRB;
 
 
-    private bool isAlive = true;
-    public bool IsAlive => this.isAlive;
+    /*private bool isAlive = true;
+    public bool IsAlive => this.isAlive;*/
+
+    private void Start()
+    {
+        this.playerRB = this.gameObject.GetComponent<Rigidbody>();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
+        //Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
         StartCoroutine(ProcessPlayerDeath());
     }
 
     private IEnumerator ProcessPlayerDeath()
     {
-        this.isAlive = false;
-        GameObject.Destroy(this.gameObject, 1.5f);
+        ExplodePlayerShip();
 
         yield return new WaitForSeconds(this.loadDelay);
 
         int currentScene = SceneManager.GetActiveScene().buildIndex;
         SceneManager.LoadScene(currentScene);
+    }
+
+    private void ExplodePlayerShip()
+    {
+        //this.isAlive = false;
+        //GameObject.Destroy(this.gameObject, 1.5f);
+        this.explosionVFX.SetActive(true);
+        this.gameObject.GetComponent<PlayerShooting>().enabled = false;
+        this.gameObject.GetComponent<PlayerMovement>().enabled = false;
+
+        this.playerRB.useGravity = true;
+        this.playerRB.mass = 100f;
+        this.playerRB.AddExplosionForce(Random.Range(5, 20),
+                                        new Vector3(Random.Range(this.gameObject.transform.position.x - 3, this.gameObject.transform.position.x + 3),
+                                                    Random.Range(this.gameObject.transform.position.y - 3, this.gameObject.transform.position.y + 3),
+                                                    Random.Range(this.gameObject.transform.position.z - 3, this.gameObject.transform.position.z + 3)),
+                                        10f, Random.Range(1f, 10f), ForceMode.Impulse);
     }
 
     /*private void OnCollisionEnter(Collision other)

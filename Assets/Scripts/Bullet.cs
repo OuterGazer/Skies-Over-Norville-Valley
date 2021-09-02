@@ -67,7 +67,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Enemy"))
         {
-            Debug.Log("Enemy hit!");
+            //Debug.Log("Enemy hit!");
             GameObject.Destroy(other.gameObject.transform.parent.gameObject);
         }
     }

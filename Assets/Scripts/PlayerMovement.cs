@@ -67,7 +67,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!this.player.IsAlive) { return; }
+        //if (!this.player.IsAlive) { return; }
 
         ProcessPlayerMovement();
 
