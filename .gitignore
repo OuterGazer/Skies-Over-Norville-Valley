@@ -6,12 +6,15 @@
 !/[Aa]ssets/[Ss]cripts
 !/[Aa]ssets/[Ss]cenes
 !/[Aa]ssets/[Tt]errains
+!/[Aa]ssets/[Tt]imelines
 !/[Aa]ssets/[Ss]cripts/**/*.cs
 !/[Aa]ssets/[Ss]cripts/**/*.cs.meta
 !/[Aa]ssets/[Ss]cenes/**/*.unity
 !/[Aa]ssets/[Ss]cenes/**/*.unity.meta
 !/[Aa]ssets/[Tt]errains/**/*.asset
 !/[Aa]ssets/[Tt]errains/**/*.asset.meta
+!/[Aa]ssets/[Tt]imelines/**/*.playable
+!/[Aa]ssets/[Tt]imelines/**/*.playable.meta
 
 
 /[Ll]ibrary/
