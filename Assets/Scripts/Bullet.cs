@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
 
     private float originZ;
     private float originX;
+    private Enemy lockedOnEnemy;
     private Vector3 lockedOnEnemyPos;
 
     private AudioSource audioSource;
@@ -56,6 +57,11 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        if (this.isEnemyLockedOn)
+        {
+            this.lockedOnEnemyPos = this.lockedOnEnemy.transform.position - this.gameObject.transform.position;
+        }
+
         if(Mathf.Abs(this.gameObject.transform.position.z - this.originZ) >= this.shootRange ||
            Mathf.Abs(this.gameObject.transform.position.x - this.originX) >= this.shootRange)
         {
@@ -85,9 +91,9 @@ public class Bullet : MonoBehaviour
         this.gameObject.SetActive(false);
     }
 
-    public void SetLockedOnPosition(Transform enemyPos)
+    public void SetLockedOnPosition(Enemy enemy)
     {
-        this.lockedOnEnemyPos = enemyPos.position - this.gameObject.transform.position;
+        this.lockedOnEnemy = enemy;
     }
 
 
@@ -96,7 +102,7 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         this.audioSource.PlayOneShot(this.hitSFX); 
-        GameObject sparks = Instantiate<GameObject>(this.bulletSparksVFX, this.gameObject.transform.position, Quaternion.identity);
+        GameObject sparks = Instantiate<GameObject>(this.bulletSparksVFX, this.gameObject.transform.position, Quaternion.identity); 
         GameObject.Destroy(sparks, 1.50f);
 
         StartCoroutine(EngageToParent(GameObject.FindWithTag("Ammo Holder").transform));

@@ -27,7 +27,7 @@ public class PlayerShooting : MonoBehaviour
     }
     private LayerMask enemyMask;
     private CollisionHandler player;
-    private Transform lockedOnEnemy;
+    private Enemy lockedOnEnemy;
 
 
     private bool wasLastBulletOnRightBarrel = false;
@@ -76,7 +76,7 @@ public class PlayerShooting : MonoBehaviour
         {
             this.crosshair.color = Color.red;
             this.lockOn = true;
-            this.lockedOnEnemy = hit.collider.transform;
+            this.lockedOnEnemy = hit.collider.GetComponent<Enemy>();
         }            
         else
         {
