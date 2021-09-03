@@ -4,17 +4,20 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] int scoreAmount = default;
+    [SerializeField] int hitScoreAmount = default;
+    [SerializeField] int killScoreAmount = default;
 
     [SerializeField] GameObject explosionVFX;
 
 
     private Score score;
+    private Health health;
 
     // Start is called before the first frame update
     void Start()
     {
         this.score = GameObject.FindObjectOfType<Score>();
+        this.health = this.gameObject.GetComponent<Health>();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -26,15 +29,35 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.layer == 7)
         {
-            this.score.IncreaseScore(this.scoreAmount);
-
-            GameObject enemyCrash = Instantiate<GameObject>(this.explosionVFX,
-                                                            new Vector3(this.transform.position.x, this.transform.position.y - 1.1f, this.transform.position.z),
-                                                            Quaternion.identity);
-            ProcessExplosion();
-
-            DestroyEnemy(enemyCrash);
+            if (this.health.IsAlive)
+            {
+                HitEnemy();
+            }
+            else
+            {
+                KillEnemy();
+            }
         }
+    }
+
+    
+
+    private void HitEnemy()
+    {
+        this.score.IncreaseScore(this.hitScoreAmount);
+        this.health.DecreaseHitPoints(1);
+    }
+
+    private void KillEnemy()
+    {
+        this.score.IncreaseScore(this.killScoreAmount);
+
+        GameObject enemyCrash = Instantiate<GameObject>(this.explosionVFX,
+                                                    new Vector3(this.transform.position.x, this.transform.position.y - 1.1f, this.transform.position.z),
+                                                    Quaternion.identity);
+        ProcessExplosion();
+
+        DestroyEnemy(enemyCrash);
     }
 
     private void ProcessExplosion()
