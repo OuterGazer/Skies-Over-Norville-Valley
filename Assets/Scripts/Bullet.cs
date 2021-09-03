@@ -87,7 +87,7 @@ public class Bullet : MonoBehaviour
 
     public void SetLockedOnPosition(Transform enemyPos)
     {
-        this.lockedOnEnemyPos = enemyPos.position;
+        this.lockedOnEnemyPos = enemyPos.position - this.gameObject.transform.position;
     }
 
 

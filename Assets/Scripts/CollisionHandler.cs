@@ -46,9 +46,9 @@ public class CollisionHandler : MonoBehaviour
         this.playerRB.useGravity = true;
         this.playerRB.mass = 100f;
         this.playerRB.AddExplosionForce(Random.Range(5, 20),
-                                        new Vector3(Random.Range(this.gameObject.transform.position.x - 3, this.gameObject.transform.position.x + 3),
-                                                    Random.Range(this.gameObject.transform.position.y - 3, this.gameObject.transform.position.y + 3),
-                                                    Random.Range(this.gameObject.transform.position.z - 3, this.gameObject.transform.position.z + 3)),
+                                        new Vector3(Random.Range(this.gameObject.transform.position.x - 3f, this.gameObject.transform.position.x + 3f),
+                                                    Random.Range(this.gameObject.transform.position.y - 3f, this.gameObject.transform.position.y + 3f),
+                                                    Random.Range(this.gameObject.transform.position.z - 3f, this.gameObject.transform.position.z + 3f)),
                                         10f, Random.Range(1f, 10f), ForceMode.Impulse);
     }
 
