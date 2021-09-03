@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
 
     private float originZ;
     private float originX;
+    private Vector3 lockedOnEnemyPos;
 
     private AudioSource audioSource;
     private Rigidbody bulletRB;
@@ -22,6 +23,15 @@ public class Bullet : MonoBehaviour
     {
         this.bulletTrail.emitting = shouldEmmit;
     }
+
+
+    private bool isEnemyLockedOn = false;
+    public bool IsEnemyLockedOn
+    {
+        get { return this.isEnemyLockedOn; }
+        set { this.isEnemyLockedOn = value; }
+    }
+
 
     // Start is called before the first frame update
     private void Awake()
@@ -33,7 +43,16 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        this.bulletRB.MovePosition(this.bulletRB.position + this.gameObject.transform.forward * this.bulletSpeed * Time.fixedDeltaTime);
+        if (!this.isEnemyLockedOn)
+        {
+            this.bulletRB.MovePosition(this.bulletRB.position + this.gameObject.transform.forward * this.bulletSpeed * Time.fixedDeltaTime);
+        }
+        else
+        {
+            // TO DO: steer bullet towards locked on enemy
+            this.bulletRB.MovePosition(this.bulletRB.position + this.lockedOnEnemyPos.normalized * this.bulletSpeed * Time.fixedDeltaTime);
+        }
+        
     }
 
     private void Update()
@@ -65,6 +84,11 @@ public class Bullet : MonoBehaviour
 
         this.gameObject.transform.localPosition = Vector3.zero;
         this.gameObject.SetActive(false);
+    }
+
+    public void SetLockedOnPosition(Transform enemyPos)
+    {
+        this.lockedOnEnemyPos = enemyPos.position;
     }
 
 

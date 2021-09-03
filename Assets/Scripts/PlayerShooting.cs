@@ -14,6 +14,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private int maxAmmo = default;
     [SerializeField] private float bulletBarrageFactor = default; // For debugging purposes only
     [SerializeField] private SpriteRenderer crosshair;
+    [SerializeField] private float aimRange = 210.0f;
+    [SerializeField] private float aimRadius = 2.20f;
 
     
     private Bullet[] airshipAmmo;
@@ -25,9 +27,11 @@ public class PlayerShooting : MonoBehaviour
     }
     private LayerMask enemyMask;
     private CollisionHandler player;
+    private Transform lockedOnEnemy;
 
 
     private bool wasLastBulletOnRightBarrel = false;
+    private bool lockOn = false;
 
 
     private void OnEnable()
@@ -64,13 +68,23 @@ public class PlayerShooting : MonoBehaviour
 
     private void FixedUpdate()
     {
+        RaycastHit hit;
         bool hasHitEnemy =
-            Physics.Raycast(this.crosshair.gameObject.transform.position, this.crosshair.gameObject.transform.forward, 210f, this.enemyMask);
+            Physics.SphereCast(this.crosshair.gameObject.transform.position, this.aimRadius, this.crosshair.gameObject.transform.forward, out hit, this.aimRange, this.enemyMask);
 
         if (hasHitEnemy)
+        {
             this.crosshair.color = Color.red;
+            this.lockOn = true;
+            this.lockedOnEnemy = hit.collider.transform;
+        }            
         else
+        {
             this.crosshair.color = Color.white;
+            this.lockOn = false;
+            this.lockedOnEnemy = null;
+        }
+            
     }
 
     // Update is called once per frame
@@ -90,6 +104,7 @@ public class PlayerShooting : MonoBehaviour
             (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
         {
             this.airshipAmmo[this.currentBullet].gameObject.SetActive(true);
+            this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = false;
 
             if (!this.wasLastBulletOnRightBarrel)
             {
@@ -106,6 +121,12 @@ public class PlayerShooting : MonoBehaviour
             this.airshipAmmo[this.currentBullet].EmmitTrail(true);
 
             this.airshipAmmo[this.currentBullet].DisengageFromParent();
+
+            if (this.lockOn)
+            {
+                this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = true;
+                this.airshipAmmo[this.currentBullet].SetLockedOnPosition(this.lockedOnEnemy);
+            }
 
             SetFireNextBullet();
             this.currentBullet++;
