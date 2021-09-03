@@ -49,7 +49,6 @@ public class Bullet : MonoBehaviour
         }
         else
         {
-            // TO DO: steer bullet towards locked on enemy
             this.bulletRB.MovePosition(this.bulletRB.position + this.lockedOnEnemyPos.normalized * this.bulletSpeed * Time.fixedDeltaTime);
         }
         
