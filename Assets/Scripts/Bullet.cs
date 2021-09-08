@@ -67,6 +67,9 @@ public class Bullet : MonoBehaviour
         {
             StartCoroutine(EngageToParent(GameObject.FindWithTag("Ammo Holder").transform));
         }
+
+        if (this.lockedOnEnemy && !this.lockedOnEnemy.Health.IsAlive)
+            this.isEnemyLockedOn = false;
     }
 
     public void DisengageFromParent()

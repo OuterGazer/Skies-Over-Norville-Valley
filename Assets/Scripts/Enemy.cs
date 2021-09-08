@@ -12,6 +12,8 @@ public class Enemy : MonoBehaviour
 
     private Score score;
     private Health health;
+    public Health Health => this.health;
+
 
     // Start is called before the first frame update
     void Start()
