@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -16,6 +17,10 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private SpriteRenderer crosshair;
     [SerializeField] private float aimRange = 210.0f;
     [SerializeField] private float aimRadius = 2.20f;
+
+    [Header("UI Settings")]
+    [SerializeField] Slider overheatingSlider;
+    private float overheatingTimer = 3.0f;
 
     
     private Bullet[] airshipAmmo;
@@ -50,6 +55,8 @@ public class PlayerShooting : MonoBehaviour
 
         this.enemyMask = LayerMask.GetMask("Enemy");
         this.player = this.gameObject.GetComponent<CollisionHandler>();
+
+        this.overheatingSlider.value = this.overheatingSlider.maxValue;
     }
 
     private void CreateAndStoreAmmo()
@@ -90,11 +97,12 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (!this.player.IsAlive) { return; }
-
         this.fireNextBullet -= Time.deltaTime;
+        
 
         ShootBullets();
+
+        this.overheatingTimer = Mathf.Clamp(this.overheatingTimer, 0f, 3f);
     }
 
     private void ShootBullets()
@@ -129,11 +137,22 @@ public class PlayerShooting : MonoBehaviour
             }
 
             SetFireNextBullet();
-            this.currentBullet++;
+            this.currentBullet++;            
         }
 
         if (this.currentBullet >= this.airshipAmmo.Length)
             this.currentBullet = 0;
+
+        if (this.playerShooting.ReadValue<float>() != 0)
+        {
+            this.overheatingTimer -= Time.deltaTime;
+        }
+        else
+        {
+            this.overheatingTimer += Time.deltaTime;
+        }
+
+        this.overheatingSlider.value = this.overheatingTimer;
     }
 
 }
