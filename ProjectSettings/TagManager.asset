@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ammo Holder
   - Enemy
+  - Music Player
   layers:
   - Default
   - TransparentFX
