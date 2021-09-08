@@ -7,6 +7,7 @@ public class CollisionHandler : MonoBehaviour
 {
     [SerializeField] private int loadDelay = default;
     [SerializeField] GameObject explosionVFX;
+    [SerializeField] AudioClip explosionSFX;
 
     private Rigidbody playerRB;
 
@@ -37,9 +38,8 @@ public class CollisionHandler : MonoBehaviour
 
     private void ExplodePlayerShip()
     {
-        //this.isAlive = false;
-        //GameObject.Destroy(this.gameObject, 1.5f);
         this.explosionVFX.SetActive(true);
+        AudioSource.PlayClipAtPoint(this.explosionSFX, Camera.main.transform.position);
         this.gameObject.GetComponent<PlayerShooting>().enabled = false;
         this.gameObject.GetComponent<PlayerMovement>().enabled = false;
 
@@ -51,9 +51,4 @@ public class CollisionHandler : MonoBehaviour
                                                     Random.Range(this.gameObject.transform.position.z - 3f, this.gameObject.transform.position.z + 3f)),
                                         10f, Random.Range(1f, 10f), ForceMode.Impulse);
     }
-
-    /*private void OnCollisionEnter(Collision other)
-    {
-        Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
-    }*/
 }

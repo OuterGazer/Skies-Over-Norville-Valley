@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] int killScoreAmount = default;
 
     [SerializeField] GameObject explosionVFX;
+    [SerializeField] AudioClip explosionSFX;
 
 
     private Score score;
@@ -54,6 +55,7 @@ public class Enemy : MonoBehaviour
     {
         this.score.IncreaseScore(this.killScoreAmount);
 
+        AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
         GameObject enemyCrash = Instantiate<GameObject>(this.explosionVFX,
                                                     new Vector3(this.transform.position.x, this.transform.position.y - 1.1f, this.transform.position.z),
                                                     Quaternion.identity);
