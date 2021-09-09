@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using TMPro;
 
 public class PlayerShooting : MonoBehaviour
 {
@@ -29,6 +30,8 @@ public class PlayerShooting : MonoBehaviour
     [Header("UI Settings")]
     [SerializeField] Slider overheatingSlider;
     private float overheatingTimer;
+    [SerializeField] TextMeshProUGUI bombLoadPercentage;
+    private float bombLoadingTimer = 0;
 
     
     private Bullet[] airshipAmmo;
@@ -232,6 +235,8 @@ public class PlayerShooting : MonoBehaviour
             this.areBombsLoaded = false;
             StartCoroutine(SpawnBombs());            
         }
+
+        UpdateUILoadingPercentage();
     }
 
     private IEnumerator SpawnBombs()
@@ -245,9 +250,24 @@ public class PlayerShooting : MonoBehaviour
         yield return new WaitForSeconds(this.timeBetweenBombs);
 
         GameObject bomb3 = Instantiate<GameObject>(this.bomb, this.dropSpot.position, this.dropSpot.rotation);
+        this.bombLoadingTimer = 0;
 
         yield return new WaitForSeconds(this.timeToLoadBombs);
 
         this.areBombsLoaded = true;
+    }
+
+    private void UpdateUILoadingPercentage()
+    {
+        if (!this.areBombsLoaded)
+        {            
+            this.bombLoadingTimer += Time.deltaTime;
+        }
+
+        this.bombLoadingTimer = Mathf.Clamp(this.bombLoadingTimer, 0, this.timeToLoadBombs);
+
+        int loadPercentage = (int)((this.bombLoadingTimer / this.timeToLoadBombs) * 100);
+
+        this.bombLoadPercentage.text = loadPercentage.ToString() + "%";
     }
 }
