@@ -19,6 +19,13 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float aimRadius = 2.20f;
     [SerializeField] private float maxShootingTime = default;
 
+    [Header("Bombing Settings")]
+    [SerializeField] private InputAction dropBombs;
+    [SerializeField] private GameObject bomb;
+    [SerializeField] private Transform dropSpot;
+    [SerializeField] private float timeBetweenBombs = default;
+    [SerializeField] private float timeToLoadBombs = default;
+
     [Header("UI Settings")]
     [SerializeField] Slider overheatingSlider;
     private float overheatingTimer;
@@ -39,15 +46,18 @@ public class PlayerShooting : MonoBehaviour
     private bool wasLastBulletOnRightBarrel = false;
     private bool lockOn = false;
     private bool isMachineGunStuck = false;
+    private bool areBombsLoaded = true;
 
 
     private void OnEnable()
     {
         this.playerShooting.Enable();
+        this.dropBombs.Enable();
     }
     private void OnDisable()
     {
         this.playerShooting.Disable();
+        this.dropBombs.Disable();
     }
 
     // Start is called before the first frame update
@@ -116,6 +126,8 @@ public class PlayerShooting : MonoBehaviour
         ShootBullets();
 
         this.overheatingTimer = Mathf.Clamp(this.overheatingTimer, 0f, this.maxShootingTime);
+
+        DropBombs();
     }
 
     private void ShootBullets()
@@ -211,5 +223,31 @@ public class PlayerShooting : MonoBehaviour
 
         this.isMachineGunStuck = false;
         this.crosshair.enabled = true;
+    }
+
+    private void DropBombs()
+    {
+        if(this.dropBombs.triggered && this.areBombsLoaded)
+        {
+            this.areBombsLoaded = false;
+            StartCoroutine(SpawnBombs());            
+        }
+    }
+
+    private IEnumerator SpawnBombs()
+    {
+        GameObject bomb1 = Instantiate<GameObject>(this.bomb, this.dropSpot.position, this.dropSpot.rotation);
+
+        yield return new WaitForSeconds(this.timeBetweenBombs);
+
+        GameObject bomb2 = Instantiate<GameObject>(this.bomb, this.dropSpot.position, this.dropSpot.rotation);
+
+        yield return new WaitForSeconds(this.timeBetweenBombs);
+
+        GameObject bomb3 = Instantiate<GameObject>(this.bomb, this.dropSpot.position, this.dropSpot.rotation);
+
+        yield return new WaitForSeconds(this.timeToLoadBombs);
+
+        this.areBombsLoaded = true;
     }
 }
