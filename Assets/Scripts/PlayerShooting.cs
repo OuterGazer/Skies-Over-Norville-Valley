@@ -17,10 +17,11 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private SpriteRenderer crosshair;
     [SerializeField] private float aimRange = 210.0f;
     [SerializeField] private float aimRadius = 2.20f;
+    [SerializeField] private float maxShootingTime = default;
 
     [Header("UI Settings")]
     [SerializeField] Slider overheatingSlider;
-    private float overheatingTimer = 3.0f;
+    private float overheatingTimer;
 
     
     private Bullet[] airshipAmmo;
@@ -53,9 +54,16 @@ public class PlayerShooting : MonoBehaviour
     {
         CreateAndStoreAmmo();
 
+        SetMaxFiringTime();
+
         this.enemyMask = LayerMask.GetMask("Enemy");
         this.player = this.gameObject.GetComponent<CollisionHandler>();
+    }
 
+    private void SetMaxFiringTime()
+    {
+        this.overheatingTimer = this.maxShootingTime;
+        this.overheatingSlider.maxValue = this.maxShootingTime;
         this.overheatingSlider.value = this.overheatingSlider.maxValue;
     }
 
@@ -78,71 +86,95 @@ public class PlayerShooting : MonoBehaviour
         RaycastHit hit;
         bool hasHitEnemy =
             Physics.SphereCast(this.crosshair.gameObject.transform.position, this.aimRadius, this.crosshair.gameObject.transform.forward, out hit, this.aimRange, this.enemyMask);
+        
+        SetCrosshairColorOnEnemyLockOn(hit, hasHitEnemy);
 
+    }
+
+    private void SetCrosshairColorOnEnemyLockOn(RaycastHit hit, bool hasHitEnemy)
+    {
         if (hasHitEnemy)
         {
             this.crosshair.color = Color.red;
             this.lockOn = true;
             this.lockedOnEnemy = hit.collider.GetComponent<Enemy>();
-        }            
+        }
         else
         {
             this.crosshair.color = Color.white;
             this.lockOn = false;
             this.lockedOnEnemy = null;
         }
-            
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.fireNextBullet -= Time.deltaTime;
-        
+        this.fireNextBullet -= Time.deltaTime;        
 
         ShootBullets();
 
-        this.overheatingTimer = Mathf.Clamp(this.overheatingTimer, 0f, 3f);
+        this.overheatingTimer = Mathf.Clamp(this.overheatingTimer, 0f, this.maxShootingTime);
     }
 
     private void ShootBullets()
     {
+
+        // Barrage fire while button keeps being pressed, the timer between bullets has reached 0 and the bullet position is back at the machine gun
         if ((this.playerShooting.ReadValue<float>() != 0) &&
             (this.fireNextBullet < 0) &&
             (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
         {
-            this.airshipAmmo[this.currentBullet].gameObject.SetActive(true);
-            this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = false;
+            this.airshipAmmo[this.currentBullet].gameObject.SetActive(true); // Activate the cached bullet
+            this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = false; // Set the lock on to standard value so the bullet flies straight
 
-            if (!this.wasLastBulletOnRightBarrel)
-            {
-                this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.rightBarrel.transform.localPosition;
-                this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.rightBarrel.transform.localRotation;
-            }
-            else
-            {
-                this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.leftBarrel.transform.localPosition;
-                this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.leftBarrel.transform.localRotation;
-            }
+            ChangeShootingBarrelForEachBullet();
 
-            this.wasLastBulletOnRightBarrel = !this.wasLastBulletOnRightBarrel;
             this.airshipAmmo[this.currentBullet].EmmitTrail(true);
+            this.airshipAmmo[this.currentBullet].DisengageFromParent(); // So the bullets don't move with the airship movement
 
-            this.airshipAmmo[this.currentBullet].DisengageFromParent();
+            SetLockOnEnemy();
 
-            if (this.lockOn)
-            {
-                this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = true;
-                this.airshipAmmo[this.currentBullet].SetLockedOnPosition(this.lockedOnEnemy);
-            }
-
+            // Set the timer between bullets to standard and prepare the next bullet in the array to be fired
             SetFireNextBullet();
-            this.currentBullet++;            
+            this.currentBullet++;
         }
 
+        // Go bak to the beginning of the array once we reached the end
         if (this.currentBullet >= this.airshipAmmo.Length)
             this.currentBullet = 0;
 
+        UpdateTemperatureSlider();
+    }
+
+    private void ChangeShootingBarrelForEachBullet()
+    {
+        if (!this.wasLastBulletOnRightBarrel)
+        {
+            this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.rightBarrel.transform.localPosition;
+            this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.rightBarrel.transform.localRotation;
+        }
+        else
+        {
+            this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition = this.leftBarrel.transform.localPosition;
+            this.airshipAmmo[this.currentBullet].gameObject.transform.localRotation = this.leftBarrel.transform.localRotation;
+        }
+
+        this.wasLastBulletOnRightBarrel = !this.wasLastBulletOnRightBarrel;
+    }
+
+    private void SetLockOnEnemy()
+    {
+        // If player fires while nearby enemies, bullets will go homing towards the enemy to aid aiming
+        if (this.lockOn)
+        {
+            this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = true;
+            this.airshipAmmo[this.currentBullet].SetLockedOnPosition(this.lockedOnEnemy);
+        }
+    }
+
+    private void UpdateTemperatureSlider()
+    {
         if (this.playerShooting.ReadValue<float>() != 0)
         {
             this.overheatingTimer -= Time.deltaTime;
@@ -153,6 +185,10 @@ public class PlayerShooting : MonoBehaviour
         }
 
         this.overheatingSlider.value = this.overheatingTimer;
-    }
 
+        if(this.overheatingTimer <= 0.85f)
+        {
+            this.airshipAmmo[this.currentBullet].SetTrailToOverheat();
+        }
+    }
 }

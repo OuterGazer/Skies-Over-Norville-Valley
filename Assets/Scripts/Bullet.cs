@@ -9,6 +9,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float shootRange = default;
 
     [Header("Effect Settings")]
+    [SerializeField] Gradient standardTrailColor;
     [SerializeField] private GameObject bulletSparksVFX;
     [SerializeField] private AudioClip hitSFX;
 
@@ -24,6 +25,7 @@ public class Bullet : MonoBehaviour
     {
         this.bulletTrail.emitting = shouldEmmit;
     }
+    
 
 
     private bool isEnemyLockedOn = false;
@@ -81,6 +83,7 @@ public class Bullet : MonoBehaviour
 
     public IEnumerator EngageToParent(Transform parent)
     {
+        this.bulletTrail.colorGradient = this.standardTrailColor;// To have overheated bullets turn back to normal trail color
         EmmitTrail(false);
 
         yield return null;
@@ -90,13 +93,19 @@ public class Bullet : MonoBehaviour
 
         yield return new WaitForSeconds(0.4f); //The duration of the hit sfx
 
-        this.gameObject.transform.localPosition = Vector3.zero;
+        this.gameObject.transform.localPosition = Vector3.zero;        
         this.gameObject.SetActive(false);
     }
 
     public void SetLockedOnPosition(Enemy enemy)
     {
         this.lockedOnEnemy = enemy;
+    }
+
+    public void SetTrailToOverheat()
+    {
+        this.bulletTrail.startColor = Color.red;
+        this.bulletTrail.endColor = Color.red;
     }
 
 
