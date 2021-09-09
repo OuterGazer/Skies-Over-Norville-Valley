@@ -31,7 +31,7 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] Slider overheatingSlider;
     private float overheatingTimer;
     [SerializeField] TextMeshProUGUI bombLoadPercentage;
-    private float bombLoadingTimer = 0;
+    private float bombLoadingTimer;
 
     
     private Bullet[] airshipAmmo;
@@ -79,6 +79,8 @@ public class PlayerShooting : MonoBehaviour
         this.overheatingTimer = this.maxShootingTime;
         this.overheatingSlider.maxValue = this.maxShootingTime;
         this.overheatingSlider.value = this.overheatingSlider.maxValue;
+
+        this.bombLoadingTimer = this.timeToLoadBombs;
     }
 
     private void CreateAndStoreAmmo()

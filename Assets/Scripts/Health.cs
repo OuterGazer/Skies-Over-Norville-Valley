@@ -23,4 +23,11 @@ public class Health : MonoBehaviour
             this.isAlive = false;
         }
     }
+
+    public void ExplodeEnemy()
+    {
+        this.hitPoints = 0;
+        this.isAlive = false;
+        this.gameObject.GetComponent<Enemy>().DestroyEnemyOnGround();
+    }
 }

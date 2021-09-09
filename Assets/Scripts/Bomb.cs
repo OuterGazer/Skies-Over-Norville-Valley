@@ -4,12 +4,30 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    private LayerMask groundAndEnemy;
+    [SerializeField] float dropForce;
+    [SerializeField] float explosionRange = default;
+    [SerializeField] AudioClip fallingSFX;
+    [SerializeField] AudioClip explosionSFX;
+    [SerializeField] GameObject explosionVFX;
+
+    private Rigidbody bombRB;
+    private LayerMask groundAndEnemyMask;
+    private LayerMask enemyMask;
 
     // Start is called before the first frame update
     void Start()
     {
-        this.groundAndEnemy = LayerMask.GetMask("Default", "Enemy");
+        this.bombRB = this.gameObject.GetComponent<Rigidbody>();
+
+        this.groundAndEnemyMask = LayerMask.GetMask("Default", "Enemy");
+        this.enemyMask = LayerMask.GetMask("Enemy");
+
+        if(GameObject.FindObjectsOfType<Bomb>().Length < 2)
+        {
+            this.gameObject.GetComponent<AudioSource>().dopplerLevel = 0;
+            this.gameObject.GetComponent<AudioSource>().PlayOneShot(this.fallingSFX);
+        }
+            
     }
 
     // Update is called once per frame
@@ -20,9 +38,33 @@ public class Bomb : MonoBehaviour
 
     private void FixedUpdate()
     {
-        bool hasHitGround = Physics.Raycast(this.gameObject.transform.position, Vector3.down, 1.0f, this.groundAndEnemy);
+        CheckGroundOrEnemyBelow();
+
+        AddDropForce();
+    }
+
+    private void CheckGroundOrEnemyBelow()
+    {
+        bool hasHitGround = Physics.Raycast(this.gameObject.transform.position, Vector3.down, 1.0f, this.groundAndEnemyMask);
 
         if (hasHitGround)
+        {
+            AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
+            Collider[] enemies = Physics.OverlapSphere(this.gameObject.transform.position, this.explosionRange, this.enemyMask);
+            
+            for(int i = 0; i < enemies.Length; i++)
+            {
+                Debug.Log($"caught {i} enemies!");
+                enemies[i].GetComponent<Health>().ExplodeEnemy();
+            }
+            
             GameObject.Destroy(this.gameObject);
+        }
+            
+    }
+
+    private void AddDropForce()
+    {
+        this.bombRB.AddForce(Vector3.down * this.dropForce, ForceMode.Acceleration);
     }
 }

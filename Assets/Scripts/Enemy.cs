@@ -83,4 +83,27 @@ public class Enemy : MonoBehaviour
         GameObject.Destroy(this.gameObject.gameObject.transform.parent.gameObject, 1.0f);
         GameObject.Destroy(enemyCrash, 1.0f);
     }
+
+    public void DestroyEnemyOnGround()
+    {
+        this.score.IncreaseScore(this.killScoreAmount);
+
+        AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
+        GameObject enemyCrash = Instantiate<GameObject>(this.explosionVFX,
+                                                    new Vector3(this.transform.position.x, this.transform.position.y - 1.1f, this.transform.position.z),
+                                                    Quaternion.identity);
+
+        this.gameObject.AddComponent<Rigidbody>();
+
+        this.gameObject.GetComponent<Rigidbody>().AddExplosionForce(Random.Range(5, 20),
+                                                                    new Vector3(Random.Range(this.gameObject.transform.position.x - 3f, this.gameObject.transform.position.x + 3f),
+                                                                                Random.Range(this.gameObject.transform.position.y - 3f, this.gameObject.transform.position.y + 3f),
+                                                                                Random.Range(this.gameObject.transform.position.z - 3f, this.gameObject.transform.position.z + 3f)),
+                                                                    10f, Random.Range(1f, 10f), ForceMode.Impulse);
+
+
+        GameObject.Destroy(this.gameObject, 1.0f);
+        GameObject.Destroy(enemyCrash, 1.0f);
+
+    }
 }
