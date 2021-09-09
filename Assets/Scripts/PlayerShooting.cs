@@ -38,6 +38,7 @@ public class PlayerShooting : MonoBehaviour
 
     private bool wasLastBulletOnRightBarrel = false;
     private bool lockOn = false;
+    private bool isMachineGunStuck = false;
 
 
     private void OnEnable()
@@ -122,6 +123,7 @@ public class PlayerShooting : MonoBehaviour
 
         // Barrage fire while button keeps being pressed, the timer between bullets has reached 0 and the bullet position is back at the machine gun
         if ((this.playerShooting.ReadValue<float>() != 0) &&
+            (!this.isMachineGunStuck) &&
             (this.fireNextBullet < 0) &&
             (this.airshipAmmo[this.currentBullet].gameObject.transform.localPosition == Vector3.zero))
         {
@@ -138,6 +140,10 @@ public class PlayerShooting : MonoBehaviour
             // Set the timer between bullets to standard and prepare the next bullet in the array to be fired
             SetFireNextBullet();
             this.currentBullet++;
+        }
+        else //if()
+        {
+            // TO DO: maybe implement SFX for when machine gun is stuck
         }
 
         // Go bak to the beginning of the array once we reached the end
@@ -175,7 +181,7 @@ public class PlayerShooting : MonoBehaviour
 
     private void UpdateTemperatureSlider()
     {
-        if (this.playerShooting.ReadValue<float>() != 0)
+        if ((this.playerShooting.ReadValue<float>() != 0) && !this.isMachineGunStuck)
         {
             this.overheatingTimer -= Time.deltaTime;
         }
@@ -186,9 +192,24 @@ public class PlayerShooting : MonoBehaviour
 
         this.overheatingSlider.value = this.overheatingTimer;
 
-        if(this.overheatingTimer <= 0.85f)
+        if((this.overheatingTimer <= 0.85f) && !this.isMachineGunStuck)
         {
             this.airshipAmmo[this.currentBullet].SetTrailToOverheat();
         }
+        
+        if ((this.overheatingTimer <= 0) && !this.isMachineGunStuck)
+        {
+            this.isMachineGunStuck = true;
+            this.crosshair.enabled = false;
+            StartCoroutine(CoolMachineGun());
+        }
+    }
+
+    private IEnumerator CoolMachineGun()
+    {
+        yield return new WaitForSeconds(this.maxShootingTime);
+
+        this.isMachineGunStuck = false;
+        this.crosshair.enabled = true;
     }
 }
