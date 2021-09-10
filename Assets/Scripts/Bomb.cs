@@ -19,7 +19,7 @@ public class Bomb : MonoBehaviour
     {
         this.bombRB = this.gameObject.GetComponent<Rigidbody>();
 
-        this.groundAndEnemyMask = LayerMask.GetMask("Default", "Enemy");
+        this.groundAndEnemyMask = LayerMask.GetMask("Default", "Water", "Enemy");
         this.enemyMask = LayerMask.GetMask("Enemy");
 
         if(GameObject.FindObjectsOfType<Bomb>().Length < 2)
