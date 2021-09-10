@@ -54,7 +54,6 @@ public class Bomb : MonoBehaviour
             
             for(int i = 0; i < enemies.Length; i++)
             {
-                Debug.Log($"caught {i} enemies!");
                 enemies[i].GetComponent<Health>().ExplodeEnemy();
             }
             

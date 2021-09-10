@@ -38,6 +38,8 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                if(this.gameObject.CompareTag("Ground Unit")) { return; } //ground units have their own public method for destroying them called from Health
+
                 KillEnemy();
             }
         }
@@ -87,6 +89,7 @@ public class Enemy : MonoBehaviour
     public void DestroyEnemyOnGround()
     {
         this.score.IncreaseScore(this.killScoreAmount);
+        this.score.IncreaseBombCount();
 
         AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
         GameObject enemyCrash = Instantiate<GameObject>(this.explosionVFX,
@@ -102,6 +105,7 @@ public class Enemy : MonoBehaviour
                                                                     10f, Random.Range(1f, 10f), ForceMode.Impulse);
 
 
+        this.gameObject.GetComponent<BoxCollider>().enabled = false;
         GameObject.Destroy(this.gameObject, 1.0f);
         GameObject.Destroy(enemyCrash, 1.0f);
 
