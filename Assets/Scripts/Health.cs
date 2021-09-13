@@ -5,17 +5,20 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    [SerializeField] int hitPoints = default;
+    [SerializeField] float hitPoints = default;
 
     [Header("Player UI Settings")]
     [SerializeField] Slider healthBar;
     [SerializeField] Image backgroundImage;
     [SerializeField] Image fillImage;
-    [SerializeField] float greenThreshold = default;
     [SerializeField] float yellowThreshold = default;
     [SerializeField] float redThreshold = default;
+    [SerializeField] float startRepairTime = default;
 
     private float playerMaxHitPoints;
+
+
+    private Coroutine repairCoroutine = null;
 
 
     private bool isAlive = true;
@@ -24,8 +27,14 @@ public class Health : MonoBehaviour
     {
         this.isAlive = false;
     }
+    private bool canRepair = false;
 
     private void Start()
+    {
+        SetPlayerHealthBarValues();
+    }
+
+    private void SetPlayerHealthBarValues()
     {
         if (this.gameObject.CompareTag("Player"))
         {
@@ -34,6 +43,49 @@ public class Health : MonoBehaviour
             this.healthBar.value = this.healthBar.maxValue;
             ChangeDamageColor(Color.green);
         }
+    }
+
+    private void Update()
+    {
+        RepairPlayerAircraft();
+    }
+
+    private void RepairPlayerAircraft()
+    {
+        if (this.canRepair)
+        {
+            this.hitPoints += Time.deltaTime;
+
+            SetHealthBarColor();
+
+            if(this.hitPoints >= this.playerMaxHitPoints)
+            {
+                this.hitPoints = this.playerMaxHitPoints;
+                this.canRepair = false;
+            }
+        }
+    }
+
+    private void SetHealthBarColor()
+    {
+        float damageLevel = (this.hitPoints / this.playerMaxHitPoints) * 100;
+
+        switch (damageLevel)
+        {
+            case float i when i <= this.yellowThreshold && i > this.redThreshold:
+                ChangeDamageColor(Color.yellow);
+                break;
+
+            case float i when i <= this.redThreshold:
+                ChangeDamageColor(Color.red);
+                break;
+
+            default:
+                ChangeDamageColor(Color.green);
+                break;
+        }
+
+        this.healthBar.value = damageLevel;
     }
 
     public void DecreaseHitPoints(int amountToDecrease)
@@ -52,28 +104,37 @@ public class Health : MonoBehaviour
     {
         if (this.gameObject.CompareTag("Player"))
         {
-            float damageLevel = (this.hitPoints / this.playerMaxHitPoints) * 100;
+            TriggerRepairCoroutine();            
 
-            switch (damageLevel)
-            {
-                case float i when i <= 60f && i > 30f:
-                    ChangeDamageColor(Color.yellow);
-                    break;
-
-                case float i when i <= 30f:
-                    ChangeDamageColor(Color.red);
-                    break;
-
-                default:
-                    ChangeDamageColor(Color.green);
-                    break;
-            }
-
-            this.healthBar.value = damageLevel;
+            SetHealthBarColor();            
 
             if (!this.isAlive)
                 StartCoroutine(this.gameObject.GetComponent<CollisionHandler>().ProcessPlayerDeath());
         }
+    }
+
+    private void TriggerRepairCoroutine()
+    {
+        if (this.canRepair)
+            this.canRepair = false;
+
+        if (this.repairCoroutine == null)
+        {
+            this.repairCoroutine = StartCoroutine(InitializeRepairs());
+        }
+        else
+        {
+            StopCoroutine(this.repairCoroutine);
+            this.repairCoroutine = StartCoroutine(InitializeRepairs());
+        }
+    }
+
+    private IEnumerator InitializeRepairs()
+    {
+        yield return new WaitForSeconds(this.startRepairTime);
+
+        this.canRepair = true;
+        this.repairCoroutine = null;
     }
 
     private void ChangeDamageColor(Color color)
