@@ -50,14 +50,17 @@ public class Bomb : MonoBehaviour
         if (hasHitGround)
         {
             AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
+            GameObject explosion = Instantiate(this.explosionVFX, this.gameObject.transform.position, Quaternion.identity);
+
             Collider[] enemies = Physics.OverlapSphere(this.gameObject.transform.position, this.explosionRange, this.enemyMask);
             
             for(int i = 0; i < enemies.Length; i++)
             {
                 enemies[i].GetComponent<Health>().ExplodeEnemy();
             }
-            
-            GameObject.Destroy(this.gameObject);
+
+            GameObject.Destroy(explosion, 1.49f);
+            GameObject.Destroy(this.gameObject, 1.5f);
         }
             
     }
