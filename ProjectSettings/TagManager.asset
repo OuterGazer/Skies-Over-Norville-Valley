@@ -10,7 +10,7 @@ TagManager:
   - Ground Unit
   - Left Turret
   - Right Turret
-  - Ship Turret
+  - Enemy Bullet
   layers:
   - Default
   - TransparentFX

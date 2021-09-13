@@ -22,11 +22,11 @@ public class CollisionHandler : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Debug.Log(this.gameObject.name + " collided with " + other.gameObject.name);
-        StartCoroutine(ProcessPlayerDeath());
+        if(!other.gameObject.CompareTag("Enemy Bullet"))
+            StartCoroutine(ProcessPlayerDeath());
     }
 
-    private IEnumerator ProcessPlayerDeath()
+    public IEnumerator ProcessPlayerDeath()
     {
         ExplodePlayerShip();
 

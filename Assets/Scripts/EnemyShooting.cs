@@ -48,7 +48,6 @@ public class EnemyShooting : MonoBehaviour
                 this.waitForNextBarrage = true;
             }
         }
-
         StopBulletsBetweenBarrages();
     }
 
@@ -58,6 +57,13 @@ public class EnemyShooting : MonoBehaviour
         {
             case "Left Turret":
                 bulletShot.transform.Rotate(Vector3.up, -90f);
+                break;
+
+            case "Right Turret":
+                bulletShot.transform.Rotate(Vector3.up, 90f);
+                break;
+
+            default:
                 break;
         }
     }

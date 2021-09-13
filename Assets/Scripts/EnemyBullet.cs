@@ -16,7 +16,7 @@ public class EnemyBullet : MonoBehaviour
     {
         this.bulletRB = this.gameObject.GetComponent<Rigidbody>();
 
-        this.range = GameObject.FindObjectOfType<CollisionHandler>().transform.position.y + 10f;
+        this.range = GameObject.FindObjectOfType<CollisionHandler>().transform.position.y + 200f;
     }
 
     // Update is called once per frame
@@ -28,8 +28,9 @@ public class EnemyBullet : MonoBehaviour
             GameObject.Destroy(this.gameObject);
     }
 
-    /*public void AlignBulletWithCannon(Vector3 cannonForwardDir)
+    private void OnTriggerEnter(Collider other)
     {
-        this.gameObject.transform.forward = cannonForwardDir;
-    }*/
+        if (other.gameObject.CompareTag("Player"))
+            other.GetComponentInParent<Health>().DecreaseHitPoints(1);
+    }
 }
