@@ -8,22 +8,31 @@ public class CollisionHandler : MonoBehaviour
     [SerializeField] private int loadDelay = default;
     [SerializeField] GameObject explosionVFX;
     [SerializeField] AudioClip explosionSFX;
+    [SerializeField] AudioClip bullethitSFX;
+    [SerializeField] GameObject bulletSparksVFX;
 
     private Rigidbody playerRB;
-
-
-    /*private bool isAlive = true;
-    public bool IsAlive => this.isAlive;*/
+    private AudioSource audioSource;
 
     private void Start()
     {
         this.playerRB = this.gameObject.GetComponent<Rigidbody>();
+        this.audioSource = this.gameObject.GetComponent<AudioSource>();
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(!other.gameObject.CompareTag("Enemy Bullet"))
+        if (!other.gameObject.CompareTag("Enemy Bullet"))
+        {
             StartCoroutine(ProcessPlayerDeath());
+        }            
+        else
+        {
+            this.audioSource.PlayOneShot(this.bullethitSFX);
+            GameObject sparks = Instantiate<GameObject>(this.bulletSparksVFX, other.transform.position, Quaternion.identity);
+            GameObject.Destroy(sparks, 1.5f);
+        }
+            
     }
 
     public IEnumerator ProcessPlayerDeath()
