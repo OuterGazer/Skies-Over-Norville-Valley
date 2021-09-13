@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Curves: {fileID: 0}
   m_Parent: {fileID: 11400000}
   m_Children:
-  - {fileID: -5915055120598252172}
-  - {fileID: 7950004873195882159}
+  - {fileID: 2835785981632826909}
+  - {fileID: 7324180926256726908}
   m_Clips: []
   m_Markers:
     m_Objects: []
@@ -66,7 +66,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: -6749133809686643130}
+  m_Parent: {fileID: 2835785981632826909}
   m_Children: []
   m_Clips:
   - m_Version: 1
@@ -1943,6 +1943,31 @@ MonoBehaviour:
   searchHierarchy: 0
   active: 1
   postPlayback: 2
+--- !u!114 &2835785981632826909
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0fc6f5187a81dc47999eefade6f0935, type: 3}
+  m_Name: Aerial
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: -6749133809686643130}
+  m_Children:
+  - {fileID: 7950004873195882159}
+  - {fileID: -5915055120598252172}
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
 --- !u!114 &6478644121098865590
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1966,6 +1991,29 @@ MonoBehaviour:
   searchHierarchy: 0
   active: 1
   postPlayback: 2
+--- !u!114 &7324180926256726908
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0fc6f5187a81dc47999eefade6f0935, type: 3}
+  m_Name: Ground
+  m_EditorClassIdentifier: 
+  m_Version: 3
+  m_AnimClip: {fileID: 0}
+  m_Locked: 0
+  m_Muted: 0
+  m_CustomPlayableFullTypename: 
+  m_Curves: {fileID: 0}
+  m_Parent: {fileID: -6749133809686643130}
+  m_Children: []
+  m_Clips: []
+  m_Markers:
+    m_Objects: []
 --- !u!114 &7950004873195882159
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1984,7 +2032,7 @@ MonoBehaviour:
   m_Muted: 0
   m_CustomPlayableFullTypename: 
   m_Curves: {fileID: 0}
-  m_Parent: {fileID: -6749133809686643130}
+  m_Parent: {fileID: 2835785981632826909}
   m_Children: []
   m_Clips:
   - m_Version: 1

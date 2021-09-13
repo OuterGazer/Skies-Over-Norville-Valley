@@ -8,6 +8,9 @@ TagManager:
   - Enemy
   - Music Player
   - Ground Unit
+  - Left Turret
+  - Right Turret
+  - Ship Turret
   layers:
   - Default
   - TransparentFX
