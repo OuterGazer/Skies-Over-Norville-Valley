@@ -32,7 +32,6 @@ public class CollisionHandler : MonoBehaviour
             GameObject sparks = Instantiate<GameObject>(this.bulletSparksVFX, other.transform.position, Quaternion.identity);
             GameObject.Destroy(sparks, 1.5f);
         }
-            
     }
 
     public IEnumerator ProcessPlayerDeath()

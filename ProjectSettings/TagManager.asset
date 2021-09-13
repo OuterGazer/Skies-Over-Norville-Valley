@@ -11,6 +11,7 @@ TagManager:
   - Left Turret
   - Right Turret
   - Enemy Bullet
+  - Flyby
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Enemy
   - PlayerAmmo
   - EnemyAmmo
-  - 
+  - Flyby
   - 
   - 
   - 

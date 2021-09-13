@@ -33,7 +33,12 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] TextMeshProUGUI bombLoadPercentage;
     private float bombLoadingTimer;
 
-    
+    [Header("SFX Settings")]
+    [SerializeField] private AudioClip shootSFX;
+    [SerializeField] private AudioClip dryShootSFX;
+
+
+    private AudioSource audioSource;
     private Bullet[] airshipAmmo;
     private int currentBullet = 0;
     private float fireNextBullet;
@@ -43,7 +48,7 @@ public class PlayerShooting : MonoBehaviour
     }
     private LayerMask enemyMask;
     private CollisionHandler player;
-    private Enemy lockedOnEnemy;
+    private Enemy lockedOnEnemy;    
 
 
     private bool wasLastBulletOnRightBarrel = false;
@@ -69,6 +74,8 @@ public class PlayerShooting : MonoBehaviour
         CreateAndStoreAmmo();
 
         SetMaxFiringTime();
+
+        this.audioSource = this.gameObject.GetComponent<AudioSource>();
 
         this.enemyMask = LayerMask.GetMask("Enemy");
         this.player = this.gameObject.GetComponent<CollisionHandler>();
@@ -99,12 +106,16 @@ public class PlayerShooting : MonoBehaviour
 
     private void FixedUpdate()
     {
+        CheckEnemiesInFront();
+    }
+
+    private void CheckEnemiesInFront()
+    {
         RaycastHit hit;
         bool hasHitEnemy =
             Physics.SphereCast(this.crosshair.gameObject.transform.position, this.aimRadius, this.crosshair.gameObject.transform.forward, out hit, this.aimRange, this.enemyMask);
-        
-        SetCrosshairColorOnEnemyLockOn(hit, hasHitEnemy);
 
+        SetCrosshairColorOnEnemyLockOn(hit, hasHitEnemy);
     }
 
     private void SetCrosshairColorOnEnemyLockOn(RaycastHit hit, bool hasHitEnemy)
@@ -126,7 +137,12 @@ public class PlayerShooting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.fireNextBullet -= Time.deltaTime;        
+        AttackOnButtonPress();
+    }
+
+    private void AttackOnButtonPress()
+    {
+        this.fireNextBullet -= Time.deltaTime;
 
         ShootBullets();
 
@@ -147,6 +163,8 @@ public class PlayerShooting : MonoBehaviour
             this.airshipAmmo[this.currentBullet].gameObject.SetActive(true); // Activate the cached bullet
             this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = false; // Set the lock on to standard value so the bullet flies straight
 
+            this.audioSource.PlayOneShot(this.shootSFX);
+
             ChangeShootingBarrelForEachBullet();
 
             this.airshipAmmo[this.currentBullet].EmmitTrail(true);
@@ -158,9 +176,12 @@ public class PlayerShooting : MonoBehaviour
             SetFireNextBullet();
             this.currentBullet++;
         }
-        else //if()
+        else if((this.playerShooting.ReadValue<float>() != 0) &&
+                (this.isMachineGunStuck) &&
+                (this.fireNextBullet < 0))
         {
-            // TO DO: maybe implement SFX for when machine gun is stuck
+            this.audioSource.PlayOneShot(this.dryShootSFX);
+            SetFireNextBullet();
         }
 
         // Go bak to the beginning of the array once we reached the end
