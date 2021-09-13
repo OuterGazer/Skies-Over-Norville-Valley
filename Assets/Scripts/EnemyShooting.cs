@@ -8,11 +8,17 @@ public class EnemyShooting : MonoBehaviour
     [SerializeField] float timeBetweenBullets = default;
     [SerializeField] float barrageBulletAmount = default;
     [SerializeField] float timeBetweenBarrages = default;
+    [SerializeField] AudioClip shootSFX;
+    [SerializeField] AudioClip cannonSFX;
 
 
     private float bulletTimeCounter;
     private float bulletCounter;
     private float barrageTimeCounter;
+
+
+    private AudioSource audioSource;
+
 
     private bool waitForNextBarrage = false;
 
@@ -21,6 +27,8 @@ public class EnemyShooting : MonoBehaviour
     {
         this.bulletTimeCounter = this.timeBetweenBullets;
         this.barrageTimeCounter = this.timeBetweenBarrages;
+
+        this.audioSource = this.gameObject.GetComponentInParent<AudioSource>();
     }
 
     private void FixedUpdate()
@@ -36,6 +44,8 @@ public class EnemyShooting : MonoBehaviour
             (!this.waitForNextBarrage))
         {
             EnemyBullet bulletShot = Instantiate<EnemyBullet>(this.bullet, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            this.audioSource.PlayOneShot(this.shootSFX);
+
             this.bulletTimeCounter = this.timeBetweenBullets;
             this.bulletCounter++;
 
@@ -48,6 +58,7 @@ public class EnemyShooting : MonoBehaviour
                 this.waitForNextBarrage = true;
             }
         }
+
         StopBulletsBetweenBarrages();
     }
 

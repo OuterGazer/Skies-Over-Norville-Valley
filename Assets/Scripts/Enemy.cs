@@ -106,8 +106,9 @@ public class Enemy : MonoBehaviour
 
 
         this.gameObject.GetComponent<BoxCollider>().enabled = false;
+        GameObject.Destroy(enemyCrash, 0.99f);
         GameObject.Destroy(this.gameObject, 1.0f);
-        GameObject.Destroy(enemyCrash, 1.0f);
+        
 
     }
 }
