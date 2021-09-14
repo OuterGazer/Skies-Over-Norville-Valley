@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     private void EnemyGetsDestroyedByPlayer(Collider other)
     {
-        if (other.gameObject.layer == 7)
+        if (other.gameObject.layer == 7 && other.CompareTag("Player Bullet"))
         {
             if (this.health.IsAlive)
             {

@@ -81,15 +81,6 @@ public class PlayerShooting : MonoBehaviour
         this.player = this.gameObject.GetComponent<CollisionHandler>();
     }
 
-    private void SetMaxFiringTime()
-    {
-        this.overheatingTimer = this.maxShootingTime;
-        this.overheatingSlider.maxValue = this.maxShootingTime;
-        this.overheatingSlider.value = this.overheatingSlider.maxValue;
-
-        this.bombLoadingTimer = this.timeToLoadBombs;
-    }
-
     private void CreateAndStoreAmmo()
     {
         this.airshipAmmo = new Bullet[this.maxAmmo];
@@ -103,6 +94,16 @@ public class PlayerShooting : MonoBehaviour
 
         SetFireNextBullet();
     }
+
+    private void SetMaxFiringTime()
+    {
+        this.overheatingTimer = this.maxShootingTime;
+        this.overheatingSlider.maxValue = this.maxShootingTime;
+        this.overheatingSlider.value = this.overheatingSlider.maxValue;
+
+        this.bombLoadingTimer = this.timeToLoadBombs;
+    }
+    
 
     private void FixedUpdate()
     {

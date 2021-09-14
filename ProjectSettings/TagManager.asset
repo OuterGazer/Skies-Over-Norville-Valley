@@ -12,6 +12,7 @@ TagManager:
   - Right Turret
   - Enemy Bullet
   - Flyby
+  - Player Bullet
   layers:
   - Default
   - TransparentFX

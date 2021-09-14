@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Bomb : MonoBehaviour
 {
-    [SerializeField] float dropForce;
+    [SerializeField] float verticalDropForce;
+    [SerializeField] float horizontalDropForce = default;
     [SerializeField] float explosionRange = default;
     [SerializeField] AudioClip fallingSFX;
     [SerializeField] AudioClip explosionSFX;
@@ -67,6 +68,7 @@ public class Bomb : MonoBehaviour
 
     private void AddDropForce()
     {
-        this.bombRB.AddForce(Vector3.down * this.dropForce, ForceMode.Acceleration);
+        this.bombRB.AddForce(Vector3.down * this.verticalDropForce, ForceMode.Acceleration);
+        this.bombRB.AddRelativeForce(Vector3.forward * this.horizontalDropForce, ForceMode.Acceleration);
     }
 }
