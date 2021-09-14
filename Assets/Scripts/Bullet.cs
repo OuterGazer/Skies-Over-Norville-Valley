@@ -34,6 +34,8 @@ public class Bullet : MonoBehaviour
         get { return this.isEnemyLockedOn; }
         set { this.isEnemyLockedOn = value; }
     }
+    private bool isBulletOverheated = false;
+    public bool IsBulletOverHeated => this.isBulletOverheated;
 
 
     // Start is called before the first frame update
@@ -84,6 +86,7 @@ public class Bullet : MonoBehaviour
     public IEnumerator EngageToParent(Transform parent)
     {
         this.bulletTrail.colorGradient = this.standardTrailColor;// To have overheated bullets turn back to normal trail color
+        this.isBulletOverheated = false; // overheated bullets make regular damage again
         EmmitTrail(false);
 
         yield return null;
@@ -106,6 +109,8 @@ public class Bullet : MonoBehaviour
     {
         this.bulletTrail.startColor = Color.red;
         this.bulletTrail.endColor = Color.red;
+
+        this.isBulletOverheated = true; // Overheated bullets do double damage
     }
 
 

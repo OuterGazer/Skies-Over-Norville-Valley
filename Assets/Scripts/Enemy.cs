@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour
         {
             if (this.health.IsAlive)
             {
-                HitEnemy();
+                HitEnemy(other.GetComponent<Bullet>().IsBulletOverHeated);
             }
             else
             {
@@ -47,10 +47,14 @@ public class Enemy : MonoBehaviour
 
     
 
-    private void HitEnemy()
+    private void HitEnemy(bool isBulletOverheated)
     {
         this.score.IncreaseScore(this.hitScoreAmount);
-        this.health.DecreaseHitPoints(1);
+
+        if(!isBulletOverheated)
+            this.health.DecreaseHitPoints(1);
+        else
+            this.health.DecreaseHitPoints(2);
     }
 
     private void KillEnemy()
