@@ -7,6 +7,8 @@ public class EnemyBullet : MonoBehaviour
     [SerializeField] private float speed = default;
     
     private float range = default;
+    private float bulletLifetime = 1.5f;
+    private float bulletLifetimeCounter = 0f;
 
 
     private Rigidbody bulletRB;
@@ -22,9 +24,11 @@ public class EnemyBullet : MonoBehaviour
     
     void FixedUpdate()
     {
+        this.bulletLifetimeCounter += Time.fixedDeltaTime;
+
         this.bulletRB.MovePosition(this.bulletRB.position + this.gameObject.transform.forward * this.speed * Time.fixedDeltaTime);
 
-        if (this.gameObject.transform.position.y >= this.range)
+        if ((this.gameObject.transform.position.y >= this.range) || (this.bulletLifetimeCounter >= this.bulletLifetime))
             GameObject.Destroy(this.gameObject);
     }
 
