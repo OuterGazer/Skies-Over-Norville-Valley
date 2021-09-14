@@ -19,6 +19,8 @@ public class PlayerShooting : MonoBehaviour
     [SerializeField] private float aimRange = 210.0f;
     [SerializeField] private float aimRadius = 2.20f;
     [SerializeField] private float maxShootingTime = default;
+    [SerializeField] private GameObject normalMuzzleFlash;
+    [SerializeField] private GameObject heatedMuzzleFlash;
 
     [Header("Bombing Settings")]
     [SerializeField] private InputAction dropBombs;
@@ -55,6 +57,7 @@ public class PlayerShooting : MonoBehaviour
     private bool lockOn = false;
     private bool isMachineGunStuck = false;
     private bool areBombsLoaded = true;
+    private bool isMachineGunOverheated = false;
 
 
     private void OnEnable()
@@ -164,7 +167,7 @@ public class PlayerShooting : MonoBehaviour
             this.airshipAmmo[this.currentBullet].gameObject.SetActive(true); // Activate the cached bullet
             this.airshipAmmo[this.currentBullet].IsEnemyLockedOn = false; // Set the lock on to standard value so the bullet flies straight
 
-            this.audioSource.PlayOneShot(this.shootSFX);
+            PlayShootingEffects();
 
             ChangeShootingBarrelForEachBullet();
 
@@ -182,7 +185,22 @@ public class PlayerShooting : MonoBehaviour
                 (this.fireNextBullet < 0))
         {
             this.audioSource.PlayOneShot(this.dryShootSFX);
+            this.normalMuzzleFlash.SetActive(false);
+            this.heatedMuzzleFlash.SetActive(false);
             SetFireNextBullet();
+        }
+
+        if (((Mathf.Approximately(this.playerShooting.ReadValue<float>(), 0)) && this.normalMuzzleFlash.activeSelf) ||
+            ((Mathf.Approximately(this.playerShooting.ReadValue<float>(), 0)) && this.heatedMuzzleFlash.activeSelf))
+        {
+            if (!this.isMachineGunOverheated)
+            {
+                this.normalMuzzleFlash.SetActive(false);
+            }
+            else
+            {
+                this.heatedMuzzleFlash.SetActive(false);
+            }
         }
 
         // Go bak to the beginning of the array once we reached the end
@@ -190,6 +208,22 @@ public class PlayerShooting : MonoBehaviour
             this.currentBullet = 0;
 
         UpdateTemperatureSlider();
+    }
+
+    private void PlayShootingEffects()
+    {
+        this.audioSource.PlayOneShot(this.shootSFX);
+
+        if (!this.isMachineGunOverheated)
+        {
+            this.normalMuzzleFlash.SetActive(true);
+            this.heatedMuzzleFlash.SetActive(false);
+        }
+        else
+        {
+            this.normalMuzzleFlash.SetActive(false);
+            this.heatedMuzzleFlash.SetActive(true);
+        }
     }
 
     private void ChangeShootingBarrelForEachBullet()
@@ -231,9 +265,15 @@ public class PlayerShooting : MonoBehaviour
 
         this.overheatingSlider.value = this.overheatingTimer;
 
-        if((this.overheatingTimer <= 0.85f) && !this.isMachineGunStuck)
+        if (this.overheatingTimer > 0.85f)
+        {            
+            this.isMachineGunOverheated = false;
+        }
+
+        if ((this.overheatingTimer <= 0.85f) && !this.isMachineGunStuck)
         {
             this.airshipAmmo[this.currentBullet].SetTrailToOverheat();
+            this.isMachineGunOverheated = true;
         }
         
         if ((this.overheatingTimer <= 0) && !this.isMachineGunStuck)
@@ -249,6 +289,7 @@ public class PlayerShooting : MonoBehaviour
         yield return new WaitForSeconds(this.maxShootingTime);
 
         this.isMachineGunStuck = false;
+        this.isMachineGunOverheated = false;
         this.crosshair.enabled = true;
     }
 
