@@ -6,6 +6,7 @@ public class EnemyBomb : MonoBehaviour
 {
     [SerializeField] private float speed = default;    
     [SerializeField] float explosionRange = default;
+    [SerializeField] float deathRange = default;
     [SerializeField] AudioClip explosionSFX;
     [SerializeField] GameObject explosionVFX;
     [SerializeField] float sqrRange = default;
@@ -16,12 +17,15 @@ public class EnemyBomb : MonoBehaviour
 
     private Rigidbody bombRB;
     private CollisionHandler player;
+    private LayerMask playerMask;
 
     // Start is called before the first frame update
     void Start()
     {
         this.bombRB = this.gameObject.GetComponent<Rigidbody>();
         this.player = GameObject.FindObjectOfType<CollisionHandler>();
+
+        this.playerMask = LayerMask.GetMask("Player");
     }
 
     private void Update()
@@ -44,12 +48,18 @@ public class EnemyBomb : MonoBehaviour
             AudioSource.PlayClipAtPoint(this.explosionSFX, this.gameObject.transform.position);
             GameObject explosion = Instantiate(this.explosionVFX, this.gameObject.transform.position, Quaternion.identity);
 
-            /*Collider[] enemies = Physics.OverlapSphere(this.gameObject.transform.position, this.explosionRange, this.enemyMask);
+            Collider[] player = Physics.OverlapSphere(this.gameObject.transform.position, this.explosionRange, this.playerMask);
+            Collider[] playerDeath = Physics.OverlapSphere(this.gameObject.transform.position, this.deathRange, this.playerMask);
 
-            for (int i = 0; i < enemies.Length; i++)
+            if (player.Length > 0)
             {
-                enemies[i].GetComponent<Health>().ExplodeEnemy();
-            }*/
+                Health playerHealth = this.player.GetComponent<Health>();
+                playerHealth.DecreaseHitPoints((int)(playerHealth.PlayerMaxHitPoints / 2));
+
+                if(playerDeath.Length > 0)
+                    playerHealth.DecreaseHitPoints((int)playerHealth.PlayerMaxHitPoints);
+            }
+                
 
             GameObject.Destroy(explosion, 1.49f);
             GameObject.Destroy(this.gameObject, 1.5f);
@@ -57,9 +67,9 @@ public class EnemyBomb : MonoBehaviour
             
     }
 
-    /*private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))
-            other.GetComponentInParent<Health>().DecreaseHitPoints(1);
-    }*/
+            other.GetComponentInParent<Health>().DecreaseHitPoints(100);
+    }
 }

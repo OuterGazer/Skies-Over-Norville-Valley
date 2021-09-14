@@ -16,6 +16,7 @@ public class Health : MonoBehaviour
     [SerializeField] float startRepairTime = default;
 
     private float playerMaxHitPoints;
+    public float PlayerMaxHitPoints => this.playerMaxHitPoints;
 
 
     private Coroutine repairCoroutine = null;

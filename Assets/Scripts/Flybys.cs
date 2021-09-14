@@ -5,6 +5,7 @@ using UnityEngine;
 public class Flybys : MonoBehaviour
 {
     [SerializeField] AudioClip bulletFlybySFX;
+    [SerializeField] AudioClip bombFlybySFX;
 
     private AudioSource audioSource;
 
@@ -18,5 +19,7 @@ public class Flybys : MonoBehaviour
     {
         if (other.CompareTag("Enemy Bullet"))
             this.audioSource.PlayOneShot(this.bulletFlybySFX);
+        else if(other.CompareTag("Enemy Bomb"))
+            this.audioSource.PlayOneShot(this.bombFlybySFX);
     }
 }
