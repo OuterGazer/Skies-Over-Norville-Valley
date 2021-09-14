@@ -4,17 +4,24 @@ using UnityEngine;
 
 public class EnemyShooting : MonoBehaviour
 {
+    [Header("Machine Gun Settings")]
     [SerializeField] EnemyBullet bullet;
     [SerializeField] float timeBetweenBullets = default;
     [SerializeField] float barrageBulletAmount = default;
     [SerializeField] float timeBetweenBarrages = default;
     [SerializeField] AudioClip shootSFX;
+
+    [Header("Cannon Settings")]
+    [SerializeField] GameObject bomb;
+    [SerializeField] float timeBetweenBombs = default;
     [SerializeField] AudioClip cannonSFX;
+    [SerializeField] GameObject cannonVFX;
 
 
     private float bulletTimeCounter;
     private float bulletCounter;
     private float barrageTimeCounter;
+    private float bombTimeCounter;
 
 
     private AudioSource audioSource;
@@ -27,13 +34,18 @@ public class EnemyShooting : MonoBehaviour
     {
         this.bulletTimeCounter = this.timeBetweenBullets;
         this.barrageTimeCounter = this.timeBetweenBarrages;
+        this.bombTimeCounter = this.timeBetweenBombs;
 
         this.audioSource = this.gameObject.GetComponentInParent<AudioSource>();
     }
 
     private void FixedUpdate()
     {
-        SpawnBullets();
+        if(this.bullet != null)
+            SpawnBullets();
+
+        if(this.bomb != null)
+            SpawnBombs();
     }
 
     private void SpawnBullets()
@@ -92,5 +104,28 @@ public class EnemyShooting : MonoBehaviour
             }
 
         }
+    }
+
+    private void SpawnBombs()
+    {
+        this.bombTimeCounter -= Time.fixedDeltaTime;
+
+        if(this.bombTimeCounter <= 0)
+        {
+            GameObject bombShot = Instantiate<GameObject>(this.bomb, this.gameObject.transform.position, this.gameObject.transform.rotation);
+            this.audioSource.PlayOneShot(this.cannonSFX);
+            this.StartCoroutine(ActivateDeactivateCannonVFX());            
+
+            this.bombTimeCounter = this.timeBetweenBombs;
+        }
+    }
+
+    private IEnumerator ActivateDeactivateCannonVFX()
+    {
+        this.cannonVFX.SetActive(true);
+
+        yield return new WaitForSeconds(2.0f);
+
+        this.cannonVFX.SetActive(false);
     }
 }

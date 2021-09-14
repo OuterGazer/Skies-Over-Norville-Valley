@@ -19,7 +19,7 @@ public class EnemyBullet : MonoBehaviour
         this.range = GameObject.FindObjectOfType<CollisionHandler>().transform.position.y + 200f;
     }
 
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         this.bulletRB.MovePosition(this.bulletRB.position + this.gameObject.transform.forward * this.speed * Time.fixedDeltaTime);

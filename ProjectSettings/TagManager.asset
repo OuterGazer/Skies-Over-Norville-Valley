@@ -13,6 +13,7 @@ TagManager:
   - Enemy Bullet
   - Flyby
   - Player Bullet
+  - Enemy Bomb
   layers:
   - Default
   - TransparentFX
