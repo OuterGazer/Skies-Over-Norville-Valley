@@ -34,6 +34,7 @@ public class PlayerShooting : MonoBehaviour
     private float overheatingTimer;
     [SerializeField] TextMeshProUGUI bombLoadPercentage;
     private float bombLoadingTimer;
+    [SerializeField] MeshRenderer engineRend;
 
     [Header("SFX Settings")]
     [SerializeField] private AudioClip shootSFX;
@@ -268,12 +269,14 @@ public class PlayerShooting : MonoBehaviour
         if (this.overheatingTimer > 0.85f)
         {            
             this.isMachineGunOverheated = false;
+            this.engineRend.material.color = Color.white;
         }
 
         if ((this.overheatingTimer <= 0.85f) && !this.isMachineGunStuck)
         {
             this.airshipAmmo[this.currentBullet].SetTrailToOverheat();
             this.isMachineGunOverheated = true;
+            this.engineRend.material.color = Color.red;
         }
         
         if ((this.overheatingTimer <= 0) && !this.isMachineGunStuck)
