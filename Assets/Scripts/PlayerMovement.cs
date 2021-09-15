@@ -190,11 +190,11 @@ public class PlayerMovement : MonoBehaviour
 
         if(this.xThrow > 0)
         {
-            rotateFlapperHorMov(-this.maxFlapperInclination, this.maxFlapperInclination);
+            RotateFlapperHorMov(-this.maxFlapperInclination, this.maxFlapperInclination);
         }
         else if (this.xThrow < 0)
         {
-            rotateFlapperHorMov(this.maxFlapperInclination, -this.maxFlapperInclination);
+            RotateFlapperHorMov(this.maxFlapperInclination, -this.maxFlapperInclination);
         }
         else if (Mathf.Approximately(this.xThrow, 0))
         {
@@ -202,7 +202,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void rotateFlapperHorMov(float angleLeft, float angleRight)
+    private void RotateFlapperHorMov(float angleLeft, float angleRight)
     {
         for (int i = 0; i < this.flappers.Length; i += 2)
         {

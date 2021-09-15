@@ -119,10 +119,15 @@ public class EnemyShooting : MonoBehaviour
         {
             GameObject bombShot = Instantiate<GameObject>(this.bomb, this.gameObject.transform.position, this.gameObject.transform.rotation);
             this.audioSource.PlayOneShot(this.cannonSFX);
-            this.StartCoroutine(ActivateDeactivateCannonVFX());            
+            this.StartCoroutine(ActivateDeactivateCannonVFX());
+
+            if (this.gameObject.CompareTag("Tank Turret"))
+                bombShot.transform.Rotate(Vector3.right, 90f);
 
             this.bombTimeCounter = this.timeBetweenBombs;
         }
+
+        
     }
 
     private IEnumerator ActivateDeactivateCannonVFX()
