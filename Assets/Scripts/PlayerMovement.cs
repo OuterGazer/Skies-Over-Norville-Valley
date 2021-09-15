@@ -18,6 +18,12 @@ public class PlayerMovement : MonoBehaviour
     [Range(0, 1)][SerializeField] float xScreenLimitPercent = default;
     [Range(0, 1)] [SerializeField] float yScreenLimitPercent = default;
 
+    [Header("Animation Settings")]
+    [SerializeField] float animationSpeed = default;
+    [SerializeField] float maxFlapperInclination = default;
+    [SerializeField] GameObject[] flappers;
+    [SerializeField] GameObject tailRudder;
+
     float xThrow, yThrow;
     private float xScreenLimit;
     private float yScreenLimit;
@@ -72,6 +78,8 @@ public class PlayerMovement : MonoBehaviour
         ProcessPlayerMovement();
 
         ProcessPlayerRotation();
+
+        ProcessFlapperAnimations();
     }
     
 
@@ -134,5 +142,84 @@ public class PlayerMovement : MonoBehaviour
         this.gameObject.transform.localRotation = Quaternion.RotateTowards(this.gameObject.transform.localRotation,
                                                                            Quaternion.Euler(xPitch, yYaw, zRoll),
                                                                            this.rotatingSpeed * Time.deltaTime);
+    }
+
+    private void ProcessFlapperAnimations()
+    {
+        UpAndDownMovement();
+
+        LeftAndRightMovement();
+    }
+
+    private void UpAndDownMovement()
+    {
+        if (this.xThrow != 0) { return; }
+
+        if (this.yThrow > 0)
+        {
+            RotateFlappersVerticalMov(this.maxFlapperInclination);
+        }
+        else if(this.yThrow < 0)
+        {
+            RotateFlappersVerticalMov(-this.maxFlapperInclination);
+        }
+        else if(Mathf.Approximately(this.yThrow, 0))
+        {
+            RotateFlappersVerticalMov(0);
+        }
+    }
+
+    private void RotateFlappersVerticalMov(float angle)
+    {
+        for (int i = 0; i < this.flappers.Length; i++)
+        {
+            this.flappers[i].transform.localRotation = Quaternion.RotateTowards(this.flappers[i].transform.localRotation,
+                                                                                Quaternion.Euler(angle, 0, 0),
+                                                                                this.animationSpeed * Time.deltaTime);
+        }
+
+        if(Mathf.Approximately(angle, 0))
+            this.tailRudder.transform.localRotation = Quaternion.RotateTowards(this.tailRudder.transform.localRotation,
+                                                                                Quaternion.Euler(0, 0, 0),
+                                                                                this.animationSpeed * Time.deltaTime);
+    }
+
+    private void LeftAndRightMovement()
+    {
+        if(this.yThrow != 0) { return; }
+
+        if(this.xThrow > 0)
+        {
+            rotateFlapperHorMov(-this.maxFlapperInclination, this.maxFlapperInclination);
+        }
+        else if (this.xThrow < 0)
+        {
+            rotateFlapperHorMov(this.maxFlapperInclination, -this.maxFlapperInclination);
+        }
+        else if (Mathf.Approximately(this.xThrow, 0))
+        {
+            RotateFlappersVerticalMov(0);
+        }
+    }
+
+    private void rotateFlapperHorMov(float angleLeft, float angleRight)
+    {
+        for (int i = 0; i < this.flappers.Length; i += 2)
+        {
+            this.flappers[i].transform.localRotation = Quaternion.RotateTowards(this.flappers[i].transform.localRotation,
+                                                                                Quaternion.Euler(angleLeft, 0, 0),
+                                                                                this.animationSpeed * Time.deltaTime);
+        }
+
+        for (int i = 1; i < this.flappers.Length; i += 2)
+        {
+            this.flappers[i].transform.localRotation = Quaternion.RotateTowards(this.flappers[i].transform.localRotation,
+                                                                                Quaternion.Euler(angleRight, 0, 0),
+                                                                                this.animationSpeed * Time.deltaTime);
+        }
+
+        this.tailRudder.transform.localRotation = Quaternion.RotateTowards(this.tailRudder.transform.localRotation,
+                                                                                Quaternion.Euler(0, 0, angleRight),
+                                                                                this.animationSpeed * Time.deltaTime);
     }
 }
