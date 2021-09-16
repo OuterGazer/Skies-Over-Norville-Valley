@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EnemyBomb : MonoBehaviour
 {
-    [SerializeField] private float speed = default;    
+    [SerializeField] private float speed = default;
+    [SerializeField] private float bombDamagePercentage = 4f;
     [SerializeField] float explosionRange = default;
-    [SerializeField] float deathRange = default;
     [SerializeField] AudioClip explosionSFX;
     [SerializeField] GameObject explosionVFX;
     [SerializeField] float sqrRange = default;
@@ -49,15 +49,11 @@ public class EnemyBomb : MonoBehaviour
             GameObject explosion = Instantiate(this.explosionVFX, this.gameObject.transform.position, Quaternion.identity);
 
             Collider[] player = Physics.OverlapSphere(this.gameObject.transform.position, this.explosionRange, this.playerMask);
-            Collider[] playerDeath = Physics.OverlapSphere(this.gameObject.transform.position, this.deathRange, this.playerMask);
 
             if (player.Length > 0)
             {
                 Health playerHealth = this.player.GetComponent<Health>();
-                playerHealth.DecreaseHitPoints((int)(playerHealth.PlayerMaxHitPoints / 2));
-
-                if(playerDeath.Length > 0)
-                    playerHealth.DecreaseHitPoints((int)playerHealth.PlayerMaxHitPoints);
+                playerHealth.DecreaseHitPoints((int)(playerHealth.PlayerMaxHitPoints / this.bombDamagePercentage)); // currently set to deal a 4th of the player's health bar.
             }
                 
 
@@ -69,6 +65,8 @@ public class EnemyBomb : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.gameObject.CompareTag("Flyby")) { return; }
+
         if (other.gameObject.CompareTag("Player"))
             other.GetComponentInParent<Health>().DecreaseHitPoints(100);
     }

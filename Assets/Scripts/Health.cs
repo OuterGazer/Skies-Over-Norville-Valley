@@ -14,6 +14,7 @@ public class Health : MonoBehaviour
     [SerializeField] float yellowThreshold = default;
     [SerializeField] float redThreshold = default;
     [SerializeField] float startRepairTime = default;
+    [SerializeField] float repairSpeed = default;
 
     private float playerMaxHitPoints;
     public float PlayerMaxHitPoints => this.playerMaxHitPoints;
@@ -55,7 +56,7 @@ public class Health : MonoBehaviour
     {
         if (this.canRepair)
         {
-            this.hitPoints += Time.deltaTime;
+            this.hitPoints += Time.deltaTime * this.repairSpeed;
 
             SetHealthBarColor();
 
