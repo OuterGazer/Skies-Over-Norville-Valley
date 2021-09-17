@@ -20,7 +20,7 @@ public class GameLoop : MonoBehaviour
     {
         if(this.timeline.time >= 3 && !this.firstTeleport)
         {
-            this.timeline.time = 19;
+            this.timeline.time = 40;
             this.firstTeleport = true;
         }
         else if(this.timeline.time >= 55.9)
