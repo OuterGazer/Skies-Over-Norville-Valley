@@ -18,12 +18,18 @@ public class GameLoop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(this.timeline.time >= 3 && !this.firstTeleport)
-        {
-            this.timeline.time = 40;
-            this.firstTeleport = true;
-        }
-        else if(this.timeline.time >= 55.9)
+        LoopBackToBeginning();
+    }
+
+    private void LoopBackToBeginning()
+    {
+        /*if(this.timeline.time >= 3 && !this.firstTeleport)
+                {
+                    this.timeline.time = 40;
+                    this.firstTeleport = true;
+                }
+                else*/
+        if (this.timeline.time >= 55.9)
         {
             this.timeline.time = 7.33;
         }
