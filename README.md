@@ -2,7 +2,7 @@
 A 3D 3rd person rail shooter with a ww1-esque atmosphere. Control a biplane flying through Norville Valley trying to shoot down enemy planes and bomb enemy tanks and ships.
 
 ### Gameplay Preview
-<iframe src="https://player.vimeo.com/video/607282620?h=d6ed1c7e0f" width="640" height="564" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+A gameplay video can be seen on vimeo on the following adress: https://vimeo.com/607282620
 
 This game is based on the Argon Assault section of the GameDev.tv Unity 3D course.
 
